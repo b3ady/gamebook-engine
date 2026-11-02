@@ -91,7 +91,7 @@ Arrives from: A27 (Ros opens her mouth)
 Beat: Ros goes rigid with outrage, then understands, and stays rigid. The Sister writes something, and goes. Ros doesn't thank you; she stands nearer. Codeword HELD.
 Links (write each target as a token):
   - {A30}  "Continue"  → leads to: The porter
-Effects (state them in the text, using in-world names): Note HELD
+Effects (state them in the text, using in-world names): Note HELD; Fear +1
 Design note: HELD route 1 (A28, W04, M26; rescues W31, B22, R15).
 
 ### A11 — Her things  [item, Act 1, Level 3]
@@ -179,7 +179,6 @@ Arrives from: A08 (Both)
 Beat: She doesn't tell you, but she tells you that she isn't telling you, and that it's Mum's to say, and that she's sorry. It is the most honest thing she has said to you in eight years. Codeword SPOKE.
 Links (write each target as a token):
   - {A09}  "Continue"  → leads to: Property
-Effects (state them in the text, using in-world names): Note SPOKE
 Design note: SPOKE route 1 of 4 (A10, A35, H04, W19).
 
 ### A05 — The surgeon's question  [choice, Act 1, Level 3]

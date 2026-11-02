@@ -126,7 +126,7 @@ Beat: 'Ros.' Her eyes open on the second time. Her wristband is blank. 'Did I fa
 Links (write each target as a token):
   - {W29}  "Continue (if you have the VISITOR'S BADGE)"  [condition: has VISITOR'S BADGE]  → leads to: One room behind
   - {W01}  "Continue (if you do not)"  [condition: lacks VISITOR'S BADGE]  → leads to: The Old Wing
-Effects (state them in the text, using in-world names): Note HELD; Cross off WARDED
+Effects (state them in the text, using in-world names): Note HELD; Cross off WARDED; Vigour -1
 Design note: Rescue counts as HELD.
 
 ### W24 — The rota, 1979  [story, Act 2, Old Wing]
@@ -149,7 +149,7 @@ Beat: The far doors open and the round comes in: the red torch, the fob watch. E
 Links (write each target as a token):
   - {W11}  "Stand at a bedside with the badge clipped on (if you have the VISITOR'S BADGE)"  [condition: has VISITOR'S BADGE]  → leads to: Passed over
   - {W11}  "Fall in behind her like staff (if you are wearing the TABARD)"  [condition: has TABARD]  → leads to: Passed over
-  - {W12}  "Stand at a bedside like a visitor"  → leads to: Checked
+  - {W12}  "Stand at a bedside like a visitor (if you have no badge and no tabard)"  [condition: lacks VISITOR'S BADGE and lacks TABARD]  → leads to: Checked
   - {W13}  "Keep walking for the far doors"  → leads to: The far doors
   - {D03}  "Get into the empty bed and pull up the blanket: she won't wake a sleeping patient"  → leads to: Lights out
 Design note: One-room-behind set piece; the obs in unison. D03 is tempting as a hiding place.

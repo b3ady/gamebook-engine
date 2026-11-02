@@ -915,3 +915,10 @@ for _s in S:
 # Owning it opens Ros up (SPOKE); taking it back is easier but doesn't (a little comfort, no SPOKE).
 _K["A35"]["gain"] = [g for g in _K["A35"]["gain"] if g != "SPOKE"]; _K["A35"]["fear"] = -1
 _K["A34"]["fear"] = 0
+
+# v4: round-2 review fixes (A 8.5, B 8)
+_K["A10"]["gain"] = [g for g in _K["A10"]["gain"] if g != "SPOKE"]      # a refusal isn't an honest exchange
+_K["A28"]["fear"] = 1                                                  # protecting her costs something
+_K["W31"]["vig"] = -1; _K["R15"]["vig"] = -1                           # rescues cost
+for _l in _K["W10"]["links"]:
+    if _l["to"] == "W12": _l.update(cond="not:VISITOR_BADGE&not:TABARD", label="Stand at a bedside like a visitor (if you have no badge and no tabard)")

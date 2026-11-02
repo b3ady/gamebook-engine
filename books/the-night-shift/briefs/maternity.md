@@ -134,7 +134,7 @@ Effects (state them in the text, using in-world names): (hidden, never mention) 
 ### D08 — Closed  [death, Act 2, Maternity]
 Arrives from: M01 (Level 5)
 Beat: Behind the door, Mum's monitor, and stairs going down to it. You take them two at a time. The door shuts behind you, and the stairs keep going, and so does the beeping, never nearer.
-Effects (state them in the text, using in-world names): Note TRIED_DOOR; Wristband +1
+Effects (state them in the text, using in-world names): (hidden, never mention) TRIED_DOOR; Wristband +1
 Death — the warning the reader was given: Notice rule 5: Ward 0 is closed (it can be opened only with the badge, the letter and the last rule, from the Main Corridor).  End: 'Fill in 1 more field on your wristband. Return to {M01} and choose again.'
 
 ### M27 — Ten minutes  [story, Act 2, Maternity]

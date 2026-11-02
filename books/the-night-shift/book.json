@@ -177,7 +177,7 @@
   "storage_key": "night-shift-sheet-v1",
   "cost_regex": "(lose \\d+ Vigour|gain \\d+ Fear|lose \\d+ Fear|fill in (?:one|\\d+) more fields? (?:of|on) your wristband|cross off one field of your wristband)",
   "loop_ending": "E_LOOP",
-  "loop_keep": {"Wristband": 2},
+  "loop_keep": {"Wristband": 1},
   "combat": {"skill": "Nerve", "health": "Vigour", "damage": 2},
   "foe_fields": ["nerve", "vig"],
   "warnings": [{"stat": "Wristband", "eq": 4, "text": "Four fields: the recovery room won't let a patient visit a patient."},

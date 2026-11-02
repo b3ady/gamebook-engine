@@ -206,7 +206,7 @@ Arrives from: R14 (Ros in Bay 2)
 Beat: 'Ros.' She wakes cross. 'Did I miss it?' Cross off WARDED. Codeword HELD.
 Links (write each target as a token):
   - {R16}  "Continue"  → leads to: The charts
-Effects (state them in the text, using in-world names): Note HELD; Cross off WARDED
+Effects (state them in the text, using in-world names): Note HELD; Cross off WARDED; Vigour -1
 
 ### R30 — Bay 6  [story, Act 3, Ward 0]
 Arrives from: R28 (Bay 5, again), R20 (Bay 5)
