@@ -9,6 +9,7 @@ Commands
   storymap   story map HTML only                            -> build/<storymap.out>
   epub       EPUB 3 (then EPUBCheck if a jar is found)      -> <epub.out>
   sheet      companion web Adventure Sheet                  -> build/<web_sheet.out>
+  webplay    playable web edition (book + live sheet)        -> build/play.html
   coverage   legal routes that together visit every section -> playtest/routes.json
   routes     render coverage routes for playtester agents   -> playtest/routeNN.md
   numbermap  printed number -> key map for reviewers        -> build/NUMBER_MAP.md
@@ -22,7 +23,7 @@ import os, sys
 
 from .config import load_config
 
-COMMANDS = ['verify', 'briefs', 'check', 'tics', 'build', 'storymap', 'epub', 'sheet', 'coverage', 'routes',
+COMMANDS = ['verify', 'briefs', 'check', 'tics', 'build', 'storymap', 'epub', 'sheet', 'webplay', 'coverage', 'routes',
             'numbermap', 'stateref', 'cover', 'scores', 'playthrough', 'all']
 
 
@@ -63,6 +64,9 @@ def main(argv=None):
     if cmd in ('sheet', 'all'):
         from . import sheet
         sheet.run(cfg)
+    if cmd in ('webplay', 'all'):
+        from . import webplay
+        webplay.run(cfg)
     if cmd == 'coverage':
         from . import coverage
         coverage.run(cfg)
