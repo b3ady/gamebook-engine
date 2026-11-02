@@ -255,3 +255,19 @@ name, price/blurb. Publishing (KDP upload) is the human's action.
 | prose/*.json | writer / fix agents | stages 5, 7, 8, 9 |
 | reviews/vN/, audit/, playtest/ | agents | stages 7–9 |
 | build/, dist/ | generated | any time |
+
+---
+
+## Lean mode (default from The Night Shift on)
+
+Token budget matters more than squeezing the last half-point of review score. Unless the author asks for the full method:
+
+- **Drafting:** one writer per zone, strongest model. Writers save their files as they go. Cross-zone facts go to the lead in the writer's reply, and the lead appends them to CANON.md.
+- **Reviews:** 2 reviewers, not 5:
+  - **Craft & continuity** (R1+R3+R5 merged): reads the prose files zone by zone, once.
+  - **Genre fan + game flow** (R2+R4 merged): reads the true route and one bad route, from `playthrough`.
+  - No 7-route playthrough sets. At most 3 rounds; stop when the average rises by less than 0.3.
+- **Audit and playtest merged:** one pass. `coverage` routes capped at about 6. Playtesters run on a cheaper model (`model: sonnet`) and return reports as text in their reply: at most 15 bullets, no prose quotes over 15 words.
+- **Fixes:** the lead makes structural fixes. Prose fixes go to one editor per two zones, on a cheaper model, from exact lists.
+- **Lead behaviour:** don't read full reports when a summary will do; don't relay every agent completion to the author. Update at gates, at draft-complete and at build-complete.
+- **Commits:** batch commits per stage, not per agent.
