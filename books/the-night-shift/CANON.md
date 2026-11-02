@@ -119,3 +119,14 @@ read a name spoken by someone who loves you (H18, W28/W31, R14, R35); keep anyon
 - Funeral line said at the wake, in front of the vicar, vol-au-vent in hand. Fog comes off the river. Lift panel stops at B; the other shaft goes below B.
 - Wristband fields: "fill one empty field; if the book names it, that one; otherwise the next empty one."
 - First mention of "the minute" is H05.
+
+## act3 (from the Ward 0 writer)
+- Way down: service lift behind H01's steel doors, brass concertina gate; sign WARD 0. RECOVERY, last decorated 1979.
+- Mum's first night 1979: custard creams in the sluice, sick, put on bedpans for a week. Night report Ward 0, 22/23 March 1979: Bed 4 Mr A. Kerr, 81, died 03.15; signed "M. Brennan, Nursing Auxiliary" with a smiley.
+- Bays: 1 stripped; 2 "R." (Ros if WARDED); 3 Thomas Hargreaves adm 4.11.52 (Fahrenheit); 4 Edna Price adm 21.3.79; 5 Joseph Okafor, 58, from Theatre 2 tonight. Kept Mum's obs: P72, BP 120/80, sats 98, T 36.8, RR 16.
+- Handwriting: the Sister blue-black fountain pen, upright, hooked numerals; Ros small square engineer's capitals, slashed zeros.
+- The Sister's face: chin/freckles of the 1999 Ward 9 nurse; eyes of the practice nurse who did Mum's bloods; hands of the midwife; mouth of Mum at 24. Climax: she comes apart into ordinary nurses going off shift; last is Mo at 24 with custard creams; leaves cap and stopped fob watch.
+- Real Mum: real A&E band from ~21:00; at 06:00 Friday the recovery nurse wears navy with a lanyard; visiting at two. Mum's first words "Who died?"; "Sort it out. Together. I'm not asking."
+- Car: Mum's Corsa, blue badge, Polos in the door; "the Asda roundabout" joke. Ros goes to the wrong side of the car. Last line of 200: "'Not one word,' says Ros. 'Get in, Bean.'"
+- Ticket: Ros's birthday the 23rd is one of Mum's numbers; the crossed 7 from Benidorm 1984. You weighed 7lb 2oz; band on your ankle; Ros at 4 wanted a dog.
+- After Ward 9 1999 you slept in Mum's bed; Dad took the spare room. E_ONLYCHILD: Mum home in December; the world quietly forgets Ros.

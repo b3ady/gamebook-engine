@@ -7,3 +7,7 @@
 - HS vs M01: stairwell door LEVEL 5 MATERNITY / WARD 9, plus a second WARD 0 – CLOSED door only on Level 5 (yellow stencil as H02). Check H02/HS agree.
 - M23 "If you are wearing the TABARD": confirm the Old Wing/Basement treat the tabard as worn.
 - B10 brief says Ros: 'Because she asked me not to' (contradicts CANON); prose uses 'Because it was Mum's to tell'. Fix story.py beat.
+- CONFLICTS to fix in revision: Gary's mum's anorak (W: blue; R06a: purple and teal). Glasses (A11: brown market frames; act3: tortoiseshell +2.5, left hinge). Ward 9 nurse: maternity "Debbie" vs act3 face description (fine, but name her consistently).
+- Wristband phrasing: standardise to "Fill in 1 more field on your Wristband." / "Cross off 1 field on your Wristband." book-wide (sheet cost regex).
+- R19/R34 WARDED wording; R38 stale hidden link in story.py (now on 200).
+- NOTICE capital false positive in check (engine): allow "NIGHT STAFF NOTICE".
