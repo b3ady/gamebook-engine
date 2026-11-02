@@ -1,0 +1,202 @@
+// book.json - one file configures the whole pipeline for a book.
+// JSON with full-line // comments (no trailing comments, no trailing commas).
+// Copy books/_template to books/<slug>, then edit. Every field below is read by some engine module;
+// the module is named in the comment. Fields marked (optional) can be deleted.
+{
+ // ---- metadata: title page, copyright, OPF, story map, sheet (build_epub, storymap, sheet) ----
+ "book": {
+  "title": "Untitled Gamebook",
+  "subtitle": "An Interactive Horror Novel",
+  "author": "Author Name",
+  "publisher": "Publisher Name",
+  "language": "en",
+  "slug": "untitled-gamebook",
+  "subjects": ["Fiction / Horror", "Interactive fiction"],
+  "description": "An Interactive Horror Novel. You are the hero. Choose wisely.",
+  // completes "This is a work of fiction. ___ Any resemblance ..." on the copyright page
+  "fiction_note": "Names, characters, places and incidents are the product of the author's imagination."
+ },
+
+ // ---- the section graph (graph.py) ----
+ // module: builds a list of section dicts (StoryBuilder or equivalent) in variable `list`.
+ // overlays (optional): modules defining a dict U {key: {field: value}} applied on top (beats, lore, stat values).
+ //   lore given as a tuple is zipped with lore_fields.
+ "story": {
+  "module": "story.py",
+  "list": "S",
+  "overlays": []
+ },
+
+ // ---- numbering and global section facts (verify) ----
+ "sections": {
+  // the book must have exactly this many sections (Layover: 200)
+  "count": 11,
+  "start": "A01",
+  "true_ending": "E_TRUE",
+  "terminal_kinds": ["ending", "death"],
+  // fixed printed numbers (puzzle answers, section 1, the last section)
+  "fixed_numbers": {"A01": 1, "E_TRUE": 11},
+  // sections that may only be reached by hidden: links (number puzzles, secret ending)
+  "hidden_targets": [],
+  // deaths reached from global rules (Vigour 0): exempt from the clue-fairness check
+  "shared_deaths": ["D_VIGOUR"],
+  // sections that are checkpoints besides every death's return section (EPUB plane icon, sheet, routes)
+  "checkpoints_extra": ["A01"],
+  // first seed tried for the shuffled numbering; no link ever joins adjacent numbers
+  "seed_start": 0,
+  "no_adjacent": true
+ },
+
+ // ---- stats (verify, briefs, check, sheet, coverage) ----
+ // field      : section field carrying a per-section delta (N(..., fear=1)); omit for pure scores
+ // short      : (optional) one-letter key used in the web sheet data (default: first letter of field)
+ // floor/cap  : bounds; cap is required to track a stat in the state search
+ // start      : value at section 1
+ // roll/story : (web sheet) Survival Mode roll formula / Story Mode fixed value
+ // max_is_start: cannot rise above its starting score (Vigour)
+ // test       : (web sheet) offers a "Test <name>" roll (2d6 <= score); test_cost: score lost per test
+ // limit      : {value | dynamic, ending, hook_label}. value: reaching it sends the reader to ending.
+ //              hook_label: verify adds a global-rule link (cond limit:<name>) after every section that raises
+ //              the stat, so the state search proves the limit ending is reachable. dynamic: "Nerve + 3" (sheet only)
+ // death      : section reached when the stat hits 0 (global rule)
+ // report_min : report the minimum value needed to reach each ending
+ // must_state : prose check requires the stat's name in any section that changes it
+ // boxes      : (web sheet) show as a row of boxes (needs cap)
+ "stats": [
+  {"name": "Nerve", "roll": "d6+6", "story": 9, "test": true},
+  {"name": "Vigour", "field": "vig", "roll": "2d6+12", "story": 20, "max_is_start": true, "must_state": true, "death": "D_VIGOUR"},
+  {"name": "Fortune", "roll": "d6+6", "story": 9, "test": true, "test_cost": 1},
+  {"name": "Fear", "field": "fear", "floor": 0, "start": 0, "report_min": true, "must_state": true,
+   "limit": {"ending": "E_DOOM", "dynamic": "Nerve + 3"}},
+  {"name": "Doom", "field": "doom", "floor": 0, "start": 0, "cap": 5, "report_min": true, "must_state": true, "boxes": true,
+   "note": "At 5, turn to the section the rules give.",
+   "limit": {"value": 5, "ending": "E_DOOM", "hook_label": "If your Doom has reached 5"}},
+  {"name": "Hours", "start": 0, "cap": 6, "boxes": true, "clock": true, "note": "Ticked when you come back to the hub from a zone."}
+ ],
+
+ // ---- clock (optional): +1 to stat each time the reader moves from an exit section to a hub section ----
+ "clock": {"stat": "Hours", "exits": [], "hubs": []},
+
+ // ---- conditions (conditions.py) ----
+ // generic atoms: has:X not:X hidden:X pass fail win lose stat:Doom>=3 stat:Hours>=6 limit:Doom
+ // aliases: short names you may use in story.py, rewritten on load
+ "conditions": {"aliases": {"doom3": "stat:Doom>=3", "doomlimit": "limit:Doom", "fearlimit": "limit:Fear"}},
+
+ // ---- verifier (verify.py) ----
+ "verify": {
+  // stats searched exactly (need a cap). [] = stat conditions are treated as unknown (both branches open)
+  "track_stats": [],
+  // (optional) every arrival at this section must hold all these items
+  "finale_gate": {"section": "A06", "items": ["TORCH"]},
+  // each finale item must be gainable in at least this many sections
+  "item_min_routes": 1,
+  // codewords whose gain-sections are listed in the report
+  "report_routes": [],
+  // (optional) codeword whose rescue (lose) sections are listed
+  "report_rescue": null,
+  // the true ending must be reachable below this stat's limit
+  "ending_below_limit": [{"ending": "E_TRUE", "stat": "Doom"}],
+  // (optional) copy overlay module attributes into the report: {"entity": {"attr": "ENTITY", "keys": [...]}}
+  "report_overlay": {},
+  // (optional) path to a module with check(book, issue, notes) for book-specific invariants
+  "extra_checks": null
+ },
+
+ // ---- codewords and items (briefs, check, sheet, routes) ----
+ "flags": {
+  "items": ["TORCH"],
+  "codewords": [],
+  // flags treated as unknown by the state search (one-shot "already visited" guards, flavour)
+  "loose": [],
+  // in-world names printed in the book (raw names with underscores must never appear in prose)
+  "display": {},
+  // flags never shown to the reader (used by links only)
+  "hidden": [],
+  // visible gains the prose check does not require to be named
+  "unstated_ok": [],
+  // (web sheet) one-use items: {"FIRST_AID": {"stat": "Vigour", "amount": 6, "label": "Use the first-aid kit (+6 Vigour)"}}
+  "consumables": {}
+ },
+
+ // ---- reader variants (optional): e.g. who you are, chosen before section 1 ----
+ // marker: regex for an inline variant label in prose; match: variant -> regex on the label
+ "variants": {},
+
+ // ---- zones: one writer brief, one prose file, one writer agent each (briefs, check, tics) ----
+ // value: an ordered list of keys, or a filter like {"zone": "Ward 3"} / {"act": 1}
+ "zones": {"act1": {"act": 1}},
+
+ "prose": {"dir": "prose", "front_prefix": "FRONT_"},
+
+ // ---- prose check (check_prose) ----
+ "check": {
+  "min_words": {"test": 70, "combat": 70, "death": 90, "ending": 200, "default": 100},
+  "cliches": ["blood ran cold", "chill ran down", "little did you know", "suddenly", "it was as if", "heart pounding"],
+  // the closing line of every death, given to writers in the brief
+  "death_end": "Add {cost} to your Doom. Return to {{{checkpoint}}} and choose again.",
+  "death_cost_field": "doom"
+ },
+
+ // ---- tics (tics.py): name -> regex, and quotas (book-wide or per zone) ----
+ "tics": {
+  "very": "\\bvery\\b",
+  "suddenly": "\\bsuddenly\\b",
+  "at once": "\\bat once\\b",
+  "simile": "\\blike a\\b|\\bas if\\b|\\bas though\\b",
+  "nobody/no one/alone": "\\bnobody\\b|\\bno one\\b|\\balone\\b"
+ },
+ "tic_quotas": {"book": {"very": 0, "suddenly": 0}},
+ // conditional-paragraph groups counted by tics: name -> substrings of the "*If ...*" condition
+ "cond_groups": {},
+
+ // ---- EPUB (build_epub) ----
+ "epub": {
+  "per_file": 20,
+  // (optional) checkpoint_icon, cover, extra images; paths relative to the book dir
+  "checkpoint_icon": null,
+  "cover": null,
+  "images": [],
+  // foe stat line in prose: "THE THING   NERVE 7   VIGOUR 7"
+  "foe_stats": ["NERVE", "VIGOUR"],
+  "front": [
+   {"file": "intro.xhtml", "title": "Before You Begin", "prose": "FRONT_INTRO", "link_section1": true},
+   {"file": "rules.xhtml", "title": "How to Play", "prose": "FRONT_RULES"},
+   {"file": "sheet.xhtml", "title": "Adventure Sheet", "sheet": true}
+  ],
+  "back": [
+   {"file": "about.xhtml", "title": "About the Author", "nav": "Thank You", "html_file": "front/about.html"}
+  ],
+  "sheet": {
+   "digital_url": null,
+   "digital_label": null,
+   "digital_text": "Keep the free digital Adventure Sheet open on your phone beside your e-reader.",
+   "qr": null,
+   "paper_text": "Or copy this onto paper. You'll need a pencil, two dice (or a dice app) and an eraser.",
+   "rows": [["NERVE (starting)", ""], ["VIGOUR (starting / now)", ""], ["FORTUNE (starting / now)", ""],
+            ["FEAR (now / limit = Nerve + 3)", ""], ["DOOM (at 5, turn to the section the rules give)", "☐ ☐ ☐ ☐ ☐"],
+            ["ITEMS", ""], ["CODEWORDS", ""], ["LAST ✈ CHECKPOINT", ""]],
+   "back_html": null
+  },
+  "out": "dist/untitled-gamebook.epub"
+ },
+
+ // ---- companion web sheet (sheet.py; generic template unless "template" is set) ----
+ "web_sheet": {
+  "brand": "UNTITLED",
+  "tag": "",
+  "storage_key": "untitled-sheet-v1",
+  // link labels whose costs the sheet offers as one-tap buttons
+  "cost_regex": "(lose \\d+ Vigour|gain \\d+ Fear|lose \\d+ Fear|add \\d+ to your Doom)",
+  "loop_ending": null,
+  "loop_keep": {"Doom": 2},
+  "combat": {"skill": "Nerve", "health": "Vigour", "damage": 2},
+  "foe_fields": ["nerve", "vig"],
+  "warnings": [{"stat": "Doom", "eq": 4, "text": "Doom 4: one more and it has you."}],
+  "out": "sheet.html"
+ },
+
+ "storymap": {"out": "story-map.html"},
+ "coverage": {"seed": 7, "max_routes": 14, "candidates": 400, "max_steps": 600, "fresh_bias": 0.85},
+ // path to epubcheck.jar (else $EPUBCHECK_JAR, else searched for)
+ "epubcheck": {"jar": ""}
+}
