@@ -41,7 +41,7 @@ def run(cfg, names=None):
                     st = prev[st]
                 return path[::-1][1:] if len(path) > 1 else path
             s = S[node]
-            if s['kind'] == 'ending':
+            if s['kind'] in ('ending', 'finale'):
                 continue
             nexts = []
             if s['kind'] == 'death':

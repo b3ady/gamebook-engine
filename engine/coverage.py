@@ -49,7 +49,7 @@ class Walker:
                     vals[st['name']] = self.bound(st, vals[st['name']] + (s.get(st['field']) or 0))
             if cur in self.cps:
                 cp = cur
-            if s['kind'] == 'ending':
+            if s['kind'] in ('ending', 'finale'):
                 break
             hit = [n for n, lim in self.limits.items() if lim is not None and vals.get(n, 0) >= lim]
             if hit:

@@ -9,22 +9,22 @@ Where this file and BIBLE.md disagree, BIBLE.md wins and the lead fixes this fil
 |---|---|
 | You | born **14 March 1991, 01:47**, St Bede's maternity (35). Mum calls you **Bean** ("the size of a broad bean on the first scan"). |
 | Ros (Rosalind) | **39** (born 1987). Structural engineer in Toronto for **eight years** (since 2018). |
-| Mum (Maureen, "Mo") | **71** (born early 1955; 36 when you were born). Retired school dinner lady, lottery syndicate, filthy laugh. |
+| Mum | **Maureen "Mo" Doyle, née Brennan**, **71** (born early 1955; 36 when you were born). Retired school dinner lady, lottery syndicate, filthy laugh. The "M." on the 1979 rota (W24) and tabard name tape is **M. Brennan**. You and Ros are Doyles. |
 | Mum at St Bede's | trained as a **nursing auxiliary, 1979** (aged 24), nights, Old Wing and Ward 0. Tore rule 8 off the Notice that year (R04). |
 | Ward 9 | in **1999** you were eight and in for a week; Mum slept in the chair. Ros was twelve, at home with Dad. |
 | Dad | died **eight years ago (2018)**. At his funeral Ros announced the Toronto job. |
 | Mum's first stroke | **six years ago (2020)**. You have been her carer since. |
 | LPA | Mum signed a health **Lasting Power of Attorney + advance decision** naming **Ros**, **three years ago (2023)**. |
-| Tonight | emergency repair of a burst aneurysm, **one in three**. In theatre since ~22:40. **Theatre ends 06:00.** |
-| Clock | Book opens **01:40** in the family room, Level 3. The **01:00** round happened before you arrived (the ROUNDS box is pre-ticked). |
-| True ending | Mum wakes at **06:02** (E_TRUE, section 200). "06:02" may appear only twice: on the wrong chart at R20 and in E_TRUE. |
-| Secret | The maternity register and the 1991 incubator band both read **01:47** -> section **147**. |
+| Tonight | **a Thursday night in November 2026** (so the TICKET is for Saturday's draw). Emergency repair of a burst aneurysm, **one in three**. In theatre since ~22:40. **Theatre ends 06:00.** |
+| Clock | Book opens **01:40** in the family room, Level 3. **No ROUNDS box is ticked at the start** (v2). Each return to the Main Corridor from a zone ticks the next box; a perfect run reaches Ward 0 with **03:00** ticked. The boxes are the Sister's rounds, not the wall clock: the corridor clock always shows the box you last ticked (the hospital's time, not yours). Lifts go down only once **03:00** is ticked. |
+| True ending | Mum wakes at **06:02** (E_TRUE, section 200). "06:02" may appear only twice: on the wrong chart at R20 and in E_TRUE. Section 200 ends with THE END and then one unnumbered sentence: if you know the minute you were born, turn to it. |
+| Secret coda | The maternity register (M03) and the 1991 incubator band (B19) both read **01:47** -> section **147**, a last page read *after* 200 (v2). |
 | Locker | Staff lockers in Property go by the year you first came to St Bede's: **1979 - 1800 = section 179**. |
 
 Names: the hospital is **St Bede's General**, a fictional English district hospital (1960s concrete on a Victorian fever
-hospital). The Night Sister is never named. Gary (W06): appendix, 1986, football kit. **Open (author):** Mum's maiden name
-and surname (the "M." on the 1979 rota and tabard name tape, the full name Ros reads aloud at R35); your first name is
-never printed (variant: DAUGHTER / SON / KID).
+hospital). The Night Sister is never named. Gary (W06): appendix, 1986, football kit. Mum's full name, as Ros reads it
+aloud at R35 (and only there in full): **Maureen Doyle**, née Brennan. The Sister and the Kept say "Maureen"; family says
+"Mum" or "Mo". Your first name is never printed (variant: DAUGHTER / SON / KID).
 
 ## The single true account of the two requests
 
@@ -43,8 +43,8 @@ order, or never. Mum never asked either of you to keep it secret; you each kept 
 | Revelation | Told in full at | Pointers only |
 |---|---|---|
 | The funeral line ("Off you go, then. Someone has to actually be here.") | Ros quotes it once, A33 | — |
-| Ros was sent (request 1, verbatim) | the **first** MENDED scene reached (W21 / B09 / M22) | M09 gives the gist only ("I sent her, you know"), never the verbatim line; SENT flag tracks who has heard it |
-| You were asked (request 2, verbatim) | the **first** MENDED scene reached | ASKED flag; R33's "She'll never be any worse than this" echoes it, never quotes it |
+| Ros was sent (request 1, verbatim) | the **first** MENDED scene reached (W21 / B09 / M22 / R41) | M09 gives the gist only ("I sent her, you know"), never the verbatim line; SENT flag tracks who has heard it |
+| You were asked (request 2, verbatim) | the **first** MENDED scene reached (W21 / B09 / M22 / R41) | ASKED flag; R33's "She'll never be any worse than this" echoes it, never quotes it |
 | The LPA and the letter text | **B07** (or **LOCKER**, whichever comes first; the other says "the same envelope") | R11: Ros reads it aloud but the prose quotes at most its last word |
 | Rule 8 "Let them go" | printed on the strip (M12 / M17 / M20); **spoken aloud only at R35** | — |
 | Where rule 8 came from (Mum let Bed 4 go, 1979) | **R04** | H12 hints ("tore something off a notice") |
@@ -52,7 +52,7 @@ order, or never. Mum never asked either of you to keep it secret; you each kept 
 
 ## Lines that may be said only once (and where)
 
-- **Ros calls you "Bean"**: once, in **E_TRUE** (car park). Before that she never does; the voice at R02 that does is not her (D09's tell).
+- **Ros calls you "Bean"**: once, in **E_TRUE** (car park), before THE END. Before that she never does; the voice at R02 that does is not her (D09's tell).
 - Mum's lucid line *"Bean? Is that you making that racket?"*: **R08** only.
 - *"There you are."* (the Sister): **D01** only.
 - *"Visiting hours are over."*: **D02** only. ("Visiting Hours" is also the true ending's title.)

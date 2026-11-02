@@ -28,6 +28,7 @@
   "fixed_numbers": {"A01": 1, "E_TRUE": 200, "LOCKER": 179, "SECRET": 147},
   "hidden_targets": ["SECRET", "LOCKER"],
   "shared_deaths": ["D_VIGOUR"],
+  // 200 is kind "finale": the true ending, with a hidden link to the coda 147 (terminal). Not a terminal kind (engine forbids links on terminals).
   // zone entries, the hub, the finale gate and the obs-chart walk (checkpoints before every fight: W01, B01, M01, R01)
   "checkpoints_extra": ["A01", "H01", "W01", "B01", "M01", "R01", "R16"],
   "seed_start": 0,
@@ -43,8 +44,8 @@
   {"name": "Wristband", "field": "band", "short": "w", "floor": 0, "start": 0, "cap": 5, "report_min": true, "must_state": true, "boxes": true,
    "note": "Five fields: NAME, DATE OF BIRTH, NEXT OF KIN, WARD, BED. At 4 the recovery room will not let you visit; at 5 turn to the section the rules give.",
    "limit": {"value": 5, "ending": "E_ADMITTED", "hook_label": "If all five fields of your wristband are filled"}},
-  {"name": "Rounds", "start": 1, "cap": 6, "boxes": true, "clock": true,
-   "note": "Six boxes, 01:00 to 06:00. The 01:00 box is ticked before you start. Tick the next box each time you come back to the Main Corridor from the Old Wing, the Basement or Maternity. When you tick 06:00, turn to the section the rules give.",
+  {"name": "Rounds", "start": 0, "cap": 6, "boxes": true, "clock": true,
+   "note": "Six boxes, 01:00 to 06:00, none ticked when you start. Tick the next box each time you come back to the Main Corridor from the Old Wing, the Basement or Maternity. When you tick 06:00, turn to the section the rules give.",
    "limit": {"value": 6, "ending": "E_ADMITTED"}}
  ],
 
@@ -72,7 +73,9 @@
   "item_min_routes": 2,
   "report_routes": ["SPOKE", "HELD", "MENDED", "KNOWS_1979", "FIRST_BAND", "RING", "TABARD"],
   "report_rescue": "WARDED",
-  "ending_below_limit": [{"ending": "E_TRUE", "stat": "Wristband"}],
+  // E_TRUE is kind "finale" (not an ending to the engine, because it links to the coda); SECRET is reachable only through it
+  // and adds no fields, so its minimum Wristband equals the true ending's.
+  "ending_below_limit": [{"ending": "SECRET", "stat": "Wristband"}],
   "report_overlay": {},
   "extra_checks": null
  },
@@ -80,9 +83,9 @@
  "flags": {
   "items": ["NOTICE", "VISITOR_BADGE", "MUMS_LETTER", "LAST_RULE", "GLASSES", "TICKET", "RING", "TABARD", "FIRST_AID", "LUGGAGE_TAG"],
   "codewords": ["SPOKE", "HELD", "MENDED", "WARDED", "PROMISE", "RETURNED", "OFFERED"],
-  "loose": ["RETURNED", "OFFERED", "TEABAR", "LP_USED", "PHONED", "REDLINE", "NIGHTINGALE", "WALKMAN", "CHAPEL", "ROTA",
+  "loose": ["RETURNED", "OFFERED", "TEABAR", "LP_USED", "PHONED", "NIGHTINGALE", "WALKMAN", "CHAPEL", "ROTA",
             "CUT_W", "RECORDS", "PROPERTY", "MORTUARY", "LODGE", "LINEN", "REGISTER", "PHONE_M", "DELIVERY", "WARD9",
-            "PARENTS", "RING_ON", "SENT", "ASKED"],
+            "PARENTS", "RING_ON", "SENT", "ASKED", "FIRST_BAND"],
   "display": {
    "NOTICE": "NIGHT STAFF NOTICE",
    "VISITOR_BADGE": "VISITOR'S BADGE",
@@ -91,7 +94,7 @@
    "FIRST_AID": "FIRST-AID KIT",
    "LUGGAGE_TAG": "LUGGAGE TAG"
   },
-  "hidden": ["KNOWS_1979", "FIRST_BAND", "TEABAR", "LP_USED", "PHONED", "REDLINE", "NIGHTINGALE", "WALKMAN", "CHAPEL", "ROTA",
+  "hidden": ["KNOWS_1979", "FIRST_BAND", "TEABAR", "LP_USED", "PHONED", "NIGHTINGALE", "WALKMAN", "CHAPEL", "ROTA",
              "CUT_W", "RECORDS", "PROPERTY", "MORTUARY", "LODGE", "LINEN", "REGISTER", "PHONE_M", "DELIVERY", "WARD9",
              "PARENTS", "RING_ON", "SENT", "ASKED"],
   "unstated_ok": ["NOTICE"],
@@ -117,7 +120,7 @@
  "prose": {"dir": "prose", "front_prefix": "FRONT_"},
 
  "check": {
-  "min_words": {"test": 70, "combat": 70, "death": 90, "ending": 200, "default": 100},
+  "min_words": {"test": 70, "combat": 70, "death": 90, "ending": 200, "finale": 200, "default": 100},
   "cliches": ["blood ran cold", "chill ran down", "little did you know", "suddenly", "it was as if", "heart pounding",
               "beeping of machines", "antiseptic smell", "sterile corridors"],
   "death_end": "Fill in {cost} more field on your wristband. Return to {{{checkpoint}}} and choose again.",
@@ -161,7 +164,7 @@
    "rows": [["DAUGHTER / SON / KID", ""], ["NERVE (starting)", ""], ["VIGOUR (starting / now)", ""], ["FORTUNE (starting / now)", ""],
             ["FEAR (now / limit = Nerve + 3)", ""],
             ["WRISTBAND (at 5, turn to the section the rules give)", "☐ NAME ☐ DATE OF BIRTH ☐ NEXT OF KIN ☐ WARD ☐ BED"],
-            ["ROUNDS (tick one each time you come back to the Main Corridor)", "☒ 01:00 ☐ 02:00 ☐ 03:00 ☐ 04:00 ☐ 05:00 ☐ 06:00"],
+            ["ROUNDS (tick one each time you come back to the Main Corridor)", "☐ 01:00 ☐ 02:00 ☐ 03:00 ☐ 04:00 ☐ 05:00 ☐ 06:00"],
             ["ITEMS", ""], ["CODEWORDS", ""], ["LAST CHECKPOINT", ""], ["THE NOTICE (rules 1-7; 8 torn off)", ""]],
    "back_html": null
   },

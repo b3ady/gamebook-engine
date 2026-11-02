@@ -835,3 +835,57 @@ N(V, A, Z, "death", "Spent",
   "You sit down on the lino and can't get up. A trolley rolls toward you.",
   [], warn="Vigour is always visible on the Adventure Sheet.", checkpoint="LAST", band=1,
   notes="Global rule: Vigour 0. Return to your last checkpoint.")
+
+# ======================================================================
+# v2 STRUCTURAL EDITS (Gate 2: the author's answers, 2026-11-02)
+# ======================================================================
+_K = K()
+
+# 1. Clock: one spare hour. ROUNDS starts with NO box ticked (book.json start 0). A perfect run (three zone
+#    returns) reaches Ward 0 having ticked 03:00. Thresholds in ticks are unchanged: <=4 at the reckoning = lucid
+#    moment (R08), 5 = one more field (R09), the 6th tick = Admitted (hubs). The lift rule still keys on the 3rd
+#    tick (stat:Rounds>=3), so it now bites only readers who made at least one extra trip before their last zone
+#    (or who use the lift after the third return, which no longer happens on a perfect run).
+_K["A01"]["notes"] = ("Section 1. Establish: Mum, Bean, the six years, theatre ends at 06:00, the hum. No ROUNDS box is "
+                      "ticked yet (v2: the author gave the reader one spare hour).")
+_K["A36"]["beat"] = _K["A36"]["beat"].replace("the clock at 02:00", "the corridor clock, stopped, waiting for the first round")
+_K["A36"]["notes"] = ("End of Act 1. First arrival: does NOT tick ROUNDS. Rule 4 is visible here (the lift going down). "
+                      "The corridor clock shows the box most recently ticked (none yet).")
+
+# 2. Secret ending becomes a CODA after the true ending. The reader never trades 200 for 147.
+#    The engine forbids links from terminal kinds, so 200 is kind "finale" (non-terminal) with one hidden link to
+#    147, the terminal coda. FIRST_BAND is loose in book.json so the hidden link counts as always open (no
+#    softlock at 200 for readers who never learned 01:47; for them the book simply ends). See STRUCTURE.md, Engine gaps.
+_K["R38"]["links"] = L(("E_TRUE", "Continue"))
+_K["R38"]["beat"] = "Theatre ends at 06:00. The recovery ward is just a recovery ward. Ros has your hand, or you have hers."
+_K["R38"]["notes"] = "v2: the secret-ending invitation moved to the end of 200."
+_K["E_TRUE"].update(kind="finale", links=L(("SECRET", "If you know the minute you were born, turn to it", "hidden:FIRST_BAND")))
+_K["E_TRUE"]["beat"] = (_K["E_TRUE"]["beat"] + " Last lines: THE END, then one unnumbered sentence inviting the reader, "
+                        "if they know the minute they were born, to turn to it (no section number printed).")
+_K["E_TRUE"]["notes"] = ("TRUE ENDING. FIXED NUMBER 200. Kind 'finale': an ending with one hidden link (the coda). "
+                         "Ros says 'Bean' here, once. Last line has a speaker, before the invitation.")
+_K["SECRET"]["title"] = "CODA: Ward 9"
+_K["SECRET"]["beat"] = ("A last page after 200. 14 March 1991, 01:47 and after. Mum, thirty-six, awake at 3 a.m. on the ward "
+                        "with you. Nobody is on their round. The last page is her looking at you.")
+_K["SECRET"]["notes"] = "SECRET CODA. FIXED NUMBER 147. Reached only from 200 by the hidden number (FIRST_BAND: B19 or M03)."
+
+# 3. Late MENDED: the Bay 2 rescue can also mend things, at a cost, if you have already SPOKE.
+_K["R14"]["links"] = L(("R41", "If you have SPOKE: say her name, and then say the rest (fill in one more field of your wristband)", "has:SPOKE&not:MENDED"),
+                       ("R15", "Say her name"),
+                       ("R16", "Leave her and go on to Mum"))
+N("R41", 3, "Ward 0", "story", "The rest",
+  "You wake her by name and then you don't stop: Bay 2, curtain drawn, the Sister writing at the station. If neither request "
+  "has been told, THE telling (see W21); otherwise pointer. It takes long enough that the Sister notices: she fills in a field "
+  "for you while you talk. Fill in one more field of your wristband. Cross off WARDED. Codewords HELD and MENDED.",
+  [("R16", "Continue")], gain=["HELD", "MENDED", "SENT", "ASKED"], lose=["WARDED"], band=1,
+  notes="v2: MENDED route 4 of 4 (late, costly). Lets a Ros taken early still reach the true ending.")
+
+# To stay at 200: the red floor line (H19, flavour) is cut; M01 and D08 already show the WARD 0 door.
+_K["H01"]["links"] = [l for l in _K["H01"]["links"] if l["to"] != "H19"]
+drop("H19")
+
+# 4. Deaths in Act 1 do not fill a wristband field; from the Main Corridor onwards they do.
+for _d in ("D01", "D02"):
+    _K[_d]["band"] = 0
+    _K[_d]["notes"] = ("v2: Act 1 death, no wristband field. End with 'Return to {%s} and choose again.' only "
+                       "(the book-wide death line's 'Fill in 1 more field' does not apply here)." % _K[_d]["checkpoint"])

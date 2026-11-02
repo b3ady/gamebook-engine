@@ -15,7 +15,7 @@ Effects (state them in the text, using in-world names): Note TORCH
 ### D_VIGOUR — Spent  [death, Act 1, Opening]
 Arrives from: A06 (The thing in the corridor)
 Beat: Global rule: Vigour 0.
-Death — the warning the reader was given: Vigour 0 (rules page).  End: 'Add 1 to your Doom. Return to {LAST} and choose again.'
+Death — the warning the reader was given: Vigour 0 (rules page).  End: 'Return to {LAST} and choose again.'
 
 ### A05 — The door marked 0  [choice, Act 1, Opening]
 Arrives from: A03 (Torch)

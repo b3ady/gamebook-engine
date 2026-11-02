@@ -85,9 +85,11 @@ def run(cfg):
                 else:
                     out.append(f"Test: {t.get('type')}")
             if s['kind'] == 'death':
-                cost = (s.get(cost_field) or 1) if cost_field else ''
-                out.append(f"Death — the warning the reader was given: {s['warn']}  End: '" +
-                           death_end.format(cost=cost, checkpoint=s['checkpoint']) + "'")
+                raw = s.get(cost_field) if cost_field else None
+                cost = (1 if raw is None else raw) if cost_field else ''
+                endline = (death_end.format(cost=cost, checkpoint=s['checkpoint']) if cost != 0
+                           else "Return to {%s} and choose again." % s['checkpoint'])
+                out.append(f"Death — the warning the reader was given: {s['warn']}  End: '" + endline + "'")
             if s.get('lore'):
                 out.append(f"Lore {s['lore']['id']} ({s['lore']['title']}): {s['lore']['text']}")
             if s.get('notes'):

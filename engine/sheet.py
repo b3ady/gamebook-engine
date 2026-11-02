@@ -38,7 +38,7 @@ def build_data(cfg, d):
         if s['kind'] == 'death':
             e['d'] = 1
             e['cp'] = None if s['checkpoint'] == 'LAST' else num(s['checkpoint'])
-        if s['kind'] == 'ending':
+        if s['kind'] in ('ending', 'finale'):
             e['end'] = 1
         if ws.get('loop_ending') and s['key'] == ws['loop_ending']:
             e['loop'] = 1
