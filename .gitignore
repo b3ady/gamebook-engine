@@ -1,0 +1,5 @@
+__pycache__/
+books/*/build/
+books/*/dist/
+books/*/playtest/
+books/*/playthroughs/

@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adventure Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+:root{--bg:#f4f1ea;--panel:#ffffff;--ink:#16181c;--mute:#6b6a66;--line:#d9d4c8;--amber:#b77900;--amberbg:#fff3d6;--red:#c2311b;--redbg:#fde6e1;--tile:#ece7dc;--chip:#efe9dc;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b0d10;--panel:#14171b;--ink:#f1eee6;--mute:#8e939c;--line:#262a31;--amber:#f5b10a;--amberbg:#2a1d00;--red:#ff5a3c;--redbg:#2c120d;--tile:#1b1f25;--chip:#1e2229;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0b0d10;--panel:#14171b;--ink:#f1eee6;--mute:#8e939c;--line:#262a31;--amber:#f5b10a;--amberbg:#2a1d00;--red:#ff5a3c;--redbg:#2c120d;--tile:#1b1f25;--chip:#1e2229;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 Inter,system-ui,-apple-system,sans-serif}
+.wrap{max-width:560px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px;display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+header{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+header .brand{font-weight:800;letter-spacing:.18em;font-size:13px;color:var(--mute)}
+header h1{margin:2px 0 0;font-size:22px;font-weight:800;letter-spacing:-.01em}
+.flight{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--amber);letter-spacing:.08em;text-align:right}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
+.label{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-bottom:8px}
+.turn{display:flex;gap:8px}
+.turn input{flex:1;min-width:0;width:100%;font:700 34px "JetBrains Mono",monospace;color:var(--amber);background:var(--tile);border:1px solid var(--line);border-radius:8px;padding:6px 12px;letter-spacing:.06em}
+.turn input:focus{outline:2px solid var(--amber);outline-offset:1px}
+button{font:inherit;color:var(--ink);background:var(--tile);border:1px solid var(--line);border-radius:8px;padding:8px 12px;cursor:pointer}
+button:hover{border-color:var(--amber)}
+button.primary{background:var(--amber);color:#111;border-color:var(--amber);font-weight:700}
+button.small{padding:4px 10px;font-size:13px}
+.log{margin-top:10px;font-size:14px;color:var(--mute);min-height:1.4em}
+.log b{color:var(--ink)}
+.alerts{display:grid;gap:8px}
+.alert{border-radius:10px;padding:10px 12px;font-size:14px;border:1px solid}
+.alert.warn{background:var(--amberbg);border-color:var(--amber)}
+.alert.bad{background:var(--redbg);border-color:var(--red)}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.stat{background:var(--tile);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:6px}
+.stat .n{white-space:nowrap;font:700 24px "JetBrains Mono",monospace}
+.stat .n small{font-size:14px;color:var(--mute);font-weight:500}
+.stat .row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.pm{display:flex;gap:6px}
+.pm button{width:32px;height:32px;padding:0;font-weight:700}
+.boxes{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.box{width:30px;height:30px;border:2px solid var(--line);border-radius:6px;display:grid;place-items:center;font:700 14px "JetBrains Mono",monospace;color:var(--mute)}
+.box.on{background:var(--amber);border-color:var(--amber);color:#111}
+.box.danger.on{background:var(--red);border-color:var(--red);color:#fff}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:13px;font-weight:600;letter-spacing:.04em}
+.chip button{background:none;border:0;padding:0 0 0 6px;color:var(--mute)}
+.muted{color:var(--mute);font-size:13px}
+.opts{display:flex;flex-wrap:wrap;gap:6px}
+.dice{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.result{font-family:"JetBrains Mono",monospace;font-size:14px;margin-top:8px}
+.ok{color:var(--amber);font-weight:700}.no{color:var(--red);font-weight:700}
+.trail{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--mute);word-break:break-word}
+.setup{display:grid;gap:14px}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button[aria-pressed="true"]{background:var(--amber);color:#111;border-color:var(--amber);font-weight:700}
+</head>
+<body>
+.add{display:flex;gap:6px;margin-top:8px}
+.add select{flex:1;min-width:0;font:inherit;background:var(--tile);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px}
+footer{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+details summary{cursor:pointer;font-weight:600}
+</style>
+
+<div class="wrap" id="app"></div>
+
+<script>
+/* Generic gamebook Adventure Sheet. Everything book-specific comes from DATA.cfg (book.json). */
+const DATA = __DATA__;
+const SEC = DATA.sec, CFG = DATA.cfg;
+const STATS = CFG.stats;                                   // [{name, field, short, start, roll, story, cap, floor, limit, death, test, test_cost, boxes, max_is_start}]
+const SHORT = {}; STATS.forEach(s => { if (s.field) SHORT[s.short || s.field[0]] = s.name; });
+const nm = k => CFG.display[k] || k;
+const KEY = CFG.key;
+const VAR = CFG.variants || {};
+const COMBAT = Object.assign({skill: 'Nerve', health: 'Vigour', damage: 2}, CFG.combat || {});
+let st = load();
+
+function fresh(){
+  const v = {}, start = {};
+  STATS.forEach(s => { const b = s.story ?? s.start ?? 0; v[s.name] = b; start[s.name] = b; });
+  return {started:false, who:(VAR.flags||[])[0]||null, mode:'story', v, start, flags:[], lore:[], trail:[], cp:1, cur:null, log:'', hist:[], foe:null, dice:''};
+}
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&typeof s==='object'&&s.v)return Object.assign(fresh(),s)}catch(e){}return fresh()}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}}
+const d6=()=>1+Math.floor(Math.random()*6);
+function roll(f){ // "2d6+12", "d6+6"
+  const m=String(f).match(/^(\d*)d6([+-]\d+)?$/); if(!m) return +f||0; let t=0; for(let i=0;i<(+m[1]||1);i++)t+=d6(); return t+(+m[2]||0); }
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const S = n => STATS.find(s => s.name === n);
+function bound(s, val){ let lo = s.floor ?? (s.max_is_start ? 0 : -99), hi = s.max_is_start ? st.start[s.name] : (s.cap ?? 99); return clamp(val, lo, hi); }
+function setv(name, val){ const s=S(name); if(s) st.v[name]=bound(s,val); }
+function limitOf(s){ const L=(DATA.limits||{})[s.name]; if(!L) return null; if(L.value!=null) return L.value;
+  const m=String(L.dynamic||'').match(/^(\w+)\s*\+\s*(\d+)$/); return m ? (st.v[m[1]]??0)+(+m[2]) : null; }
+function snapshot(){const c=JSON.parse(JSON.stringify(st));delete c.hist;st.hist.push(c);if(st.hist.length>40)st.hist.shift()}
+function undo(){const p=st.hist.pop();if(!p)return;const h=st.hist;st=Object.assign(fresh(),p);st.hist=h;save();render()}
+function add(f){if(!st.flags.includes(f))st.flags.push(f)}
+function drop(f){st.flags=st.flags.filter(x=>x!==f)}
+
+function go(n){
+  n=parseInt(n,10); const e=SEC[n];
+  if(!e){st.log='There is no section '+n+'.';render();return}
+  snapshot();
+  const prev=st.cur, msg=[];
+  if(CFG.clock && prev!=null && DATA.exits.includes(prev) && DATA.hubs.includes(n)){const c=CFG.clock.stat;setv(c,st.v[c]+1);msg.push(c.toLowerCase()+' +1 ('+st.v[c]+')')}
+  (e.g||[]).forEach(f=>{add(f);msg.push('noted '+nm(f))});
+  (e.l||[]).forEach(f=>{if(st.flags.includes(f)){drop(f);msg.push('crossed off '+nm(f))}});
+  Object.entries(SHORT).forEach(([k,name])=>{ if(e[k]){ setv(name, st.v[name]+e[k]); msg.push((e[k]>0?'+':'')+e[k]+' '+name); } });
+  if(e.lore&&!st.lore.find(x=>x[0]===e.lore[0])){st.lore.push(e.lore);msg.push('lore: '+e.lore[1])}
+  if(e.cpt){st.cp=n;msg.push('checkpoint ✈')}
+  if(e.d){ if(e.cp==null){STATS.filter(s=>s.max_is_start).forEach(s=>st.v[s.name]=st.start[s.name]);msg.push('return to ✈ '+st.cp)} else msg.push('return to '+e.cp) }
+  if(e.loop){const keep=(CFG.loop_keep||{});STATS.forEach(s=>{st.v[s.name]= s.name in keep ? Math.min(st.v[s.name],keep[s.name]) : st.start[s.name]});st.flags=[];msg.push('the story begins again')}
+  st.foe=e.foe?{name:e.foe[0],skill:e.foe[1],hp:e.foe[2],max:e.foe[2]}:null; st.dice='';
+  st.cur=n; st.trail.push(n); if(st.trail.length>60)st.trail.shift();
+  st.log='<b>'+n+'</b>'+(msg.length?': '+msg.join(' · '):'');
+  save();render();
+}
+
+function alerts(){
+  const a=[]; const e=st.cur!=null?SEC[st.cur]:null;
+  if(e&&e.d)a.push(['bad', e.cp==null?`You can't go on. Turn back to your last ✈ checkpoint, section <b>${st.cp}</b>.`:`Turn back to section <b>${e.cp}</b> and choose again.`]);
+  if(e&&e.end&&!e.loop)a.push(['warn','This is an ending. Start again from the button at the bottom when you are ready.']);
+  STATS.forEach(s=>{ const L=limitOf(s), sec=(DATA.limits||{})[s.name];
+    if(L!=null && st.v[s.name]>=L) a.push(['bad',`Your ${s.name} has reached ${L}. Turn to section <b>${sec.sec}</b>.`]);
+    if((DATA.deaths||{})[s.name] && st.v[s.name]<=0 && !(e&&e.d)) a.push(['bad',`Your ${s.name} is 0. Turn to section <b>${DATA.deaths[s.name]}</b>.`]); });
+  (CFG.warnings||[]).forEach(w=>{ const v=st.v[w.stat]; if(v==null)return; if((w.eq!=null&&v===w.eq)||(w.gte!=null&&v>=w.gte)) a.push([w.level||'warn', w.text]); });
+  return a;
+}
+
+function statTile(s){const sub = s.max_is_start ? '/ '+st.start[s.name] : (limitOf(s)!=null ? '/ '+limitOf(s) : '');
+  return `<div class="stat"><div class="label" style="margin:0">${s.name}</div><div class="row"><div class="n">${st.v[s.name]}${sub?` <small>${sub}</small>`:''}</div><div class="pm"><button aria-label="Lower ${s.name}" data-adj="${s.name}" data-d="-1">−</button><button aria-label="Raise ${s.name}" data-adj="${s.name}" data-d="1">+</button></div></div></div>`}
+function boxPanel(s){ const n=s.cap, L=limitOf(s); let h=''; for(let i=1;i<=n;i++) h+=`<span class="box ${st.v[s.name]>=i?'on':''} ${L!=null&&i>=L-1?'danger':''}">${s.clock?String(i).padStart(2,'0'):''}</span>`;
+  return `<section class="panel"><div class="row" style="display:flex;justify-content:space-between;align-items:center"><div class="label" style="margin:0">${s.name}</div><div class="pm"><button data-adj="${s.name}" data-d="-1" aria-label="Lower ${s.name}">−</button><button data-adj="${s.name}" data-d="1" aria-label="Raise ${s.name}">+</button></div></div>
+  <div class="boxes" style="margin-top:8px">${h}</div>${s.note?`<div class="muted" style="margin-top:6px">${s.note}</div>`:''}</section>`}
+
+function render(){
+  const app=document.getElementById('app');
+  if(!st.started){app.innerHTML=setupView();bindSetup();return}
+  const e=st.cur!=null?SEC[st.cur]:{};
+  const items=st.flags.filter(f=>CFG.items.includes(f)), codes=st.flags.filter(f=>!CFG.items.includes(f));
+  const al=alerts();
+  const tiles=STATS.filter(s=>!s.boxes), boxed=STATS.filter(s=>s.boxes);
+  app.innerHTML=`
+  <header><div><div class="brand">${CFG.brand}</div><h1>Adventure Sheet</h1></div>
+  <div class="flight">${CFG.tag}${st.who?' · '+st.who:''}<br>${st.mode==='story'?'STORY MODE':'SURVIVAL'}</div></header>
+  <section class="panel"><div class="label">Turn to</div>
+    <form class="turn" id="turn"><input class="mono" id="secno" size="4" inputmode="numeric" pattern="[0-9]*" placeholder="${st.cur??'1'}" aria-label="Section number" autocomplete="off"><button class="primary" type="submit">Go</button></form>
+    <div class="log">${st.log||'Type the number of the section you have just turned to. The sheet applies what the book tells you to do there.'}</div>
+  </section>
+  ${al.length?`<div class="alerts">${al.map(x=>`<div class="alert ${x[0]}">${x[1]}</div>`).join('')}</div>`:''}
+  ${e.opt?`<section class="panel"><div class="label">This page may ask you to</div><div class="opts">${e.opt.map(o=>`<button class="small" data-opt="${o}">${o}</button>`).join('')}</div><div class="muted" style="margin-top:6px">Tap only what your choice actually costs.</div></section>`:''}
+  <section class="stats">${tiles.map(statTile).join('')}</section>
+  ${boxed.map(boxPanel).join('')}
+  ${st.foe?combatView():''}
+  <section class="panel"><div class="label">Dice</div><div class="dice">
+    ${STATS.filter(s=>s.test).map(s=>`<button data-roll="${s.name}">Test ${s.name}</button>`).join('')}<button data-roll="2d6">Roll 2d6</button>
+    ${st.mode==='story'?'<span class="muted">Story Mode: you may simply choose the outcome.</span>':''}</div>
+    ${st.dice?`<div class="result">${st.dice}</div>`:''}</section>
+  <section class="panel"><div class="label">Items</div><div class="chips">${items.length?items.map(chip).join(''):'<span class="muted">Nothing yet</span>'}</div>
+    ${Object.entries(CFG.consumables||{}).filter(([f])=>st.flags.includes(f)).map(([f,c])=>`<div style="margin-top:8px"><button class="small" data-use="${f}">${c.label}</button></div>`).join('')}
+    <div class="label" style="margin-top:14px">Codewords</div><div class="chips">${codes.length?codes.map(chip).join(''):'<span class="muted">None yet</span>'}</div>
+    <details style="margin-top:12px"><summary>Add one by hand</summary><div class="add"><select id="addsel">${[...CFG.items,...CFG.codewords].filter(f=>!st.flags.includes(f)).map(f=>`<option value="${f}">${nm(f)}</option>`).join('')}</select><button class="small" id="addbtn">Add</button></div></details></section>
+  <section class="panel"><div class="label">What you know</div>${st.lore.length?`<div class="chips">${st.lore.map(l=>`<span class="chip">${l[1]}</span>`).join('')}</div>`:'<span class="muted">Nothing yet. Keep reading.</span>'}
+    <div class="label" style="margin-top:14px">Last checkpoint ✈</div><div class="mono">${st.cp}</div>
+    <div class="label" style="margin-top:14px">Your trail</div><div class="trail">${st.trail.slice(-24).join(' → ')||'—'}</div></section>
+  <footer><button id="undo" ${st.hist.length?'':'disabled'}>Undo last</button><button id="theme">Light / dark</button><button id="reset">Start again</button></footer>`;
+  bindMain();
+}
+function chip(f){return `<span class="chip">${nm(f)}<button aria-label="Cross off ${nm(f)}" data-drop="${f}">×</button></span>`}
+function combatView(){const f=st.foe;return `<section class="panel"><div class="label">Fight: ${f.name}</div>
+  <div class="stats"><div class="stat"><div class="label" style="margin:0">Their ${COMBAT.skill}</div><div class="n">${f.skill}</div></div><div class="stat"><div class="label" style="margin:0">Their ${COMBAT.health}</div><div class="n">${f.hp} <small>/ ${f.max}</small></div></div></div>
+  <div class="dice" style="margin-top:10px">${f.hp>0&&st.v[COMBAT.health]>0?'<button class="primary" id="round">Fight a round</button>':''}${st.mode==='story'?'<button id="winfight">Choose to win</button>':''}</div></section>`}
+
+function setupView(){
+  const rolled=STATS.filter(s=>s.roll);
+  return `<header><div><div class="brand">${CFG.brand}</div><h1>Adventure Sheet</h1></div><div class="flight">${CFG.tag}</div></header>
+  <section class="panel setup">
+    ${(VAR.flags||[]).length?`<div><div class="label">${VAR.label||'Who are you?'}</div><div class="seg" id="who">${VAR.flags.map(w=>`<button aria-pressed="${st.who===w}" data-who="${w}">${w}</button>`).join('')}</div></div>`:''}
+    <div><div class="label">How do you want to play?</div><div class="seg" id="mode"><button aria-pressed="${st.mode==='story'}" data-mode="story">Story Mode</button><button aria-pressed="${st.mode==='survival'}" data-mode="survival">Survival Mode</button></div>
+      <div class="muted" style="margin-top:6px">${st.mode==='story'?rolled.map(s=>s.name+' '+s.story).join(', ')+'. Choose the outcome of tests and fights.':'Roll your scores. Every test and fight is played by the dice.'}</div></div>
+    ${st.mode==='survival'?`<div class="stats">${rolled.map(s=>`<div class="stat"><div class="label" style="margin:0">${s.name}</div><div class="n">${st.start[s.name]}</div></div>`).join('')}<div class="stat" style="justify-content:center"><button id="rollstats">Roll scores</button></div></div>`:''}
+    <button class="primary" id="begin">Begin at section 1</button>
+    <div class="muted">Keep this open beside your e-reader. It remembers your progress on this device.</div>
+  </section>`}
+function rollStats(){STATS.filter(s=>s.roll).forEach(s=>{st.start[s.name]=roll(s.roll)})}
+function storyStats(){STATS.filter(s=>s.roll).forEach(s=>{st.start[s.name]=s.story})}
+function bindSetup(){
+  document.querySelectorAll('[data-who]').forEach(b=>b.onclick=()=>{st.who=b.dataset.who;render()});
+  document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{st.mode=b.dataset.mode;st.mode==='story'?storyStats():rollStats();render()});
+  const r=document.getElementById('rollstats');if(r)r.onclick=()=>{rollStats();render()};
+  document.getElementById('begin').onclick=()=>{STATS.forEach(s=>st.v[s.name]=st.start[s.name]);if(st.who)add(st.who);st.started=true;st.cur=null;go(1)};
+}
+function bindMain(){
+  document.getElementById('turn').onsubmit=ev=>{ev.preventDefault();const v=document.getElementById('secno').value.trim();if(v)go(v)};
+  document.querySelectorAll('[data-adj]').forEach(b=>b.onclick=()=>{snapshot();setv(b.dataset.adj,st.v[b.dataset.adj]+(+b.dataset.d));save();render()});
+  document.querySelectorAll('[data-opt]').forEach(b=>b.onclick=()=>{snapshot();const o=b.dataset.opt.toLowerCase(),n=parseInt((o.match(/\d+/)||['0'])[0],10);
+    const s=STATS.find(s=>o.includes(s.name.toLowerCase())); if(s){ const down=/^(lose|cross off)/.test(o); setv(s.name, st.v[s.name]+(down?-n:n)); }
+    st.log+=' · '+b.dataset.opt;save();render()});
+  document.querySelectorAll('[data-roll]').forEach(b=>b.onclick=()=>{const a=d6(),c=d6(),t=a+c,k=b.dataset.roll;
+    if(k==='2d6')st.dice=`Rolled ${a} + ${c} = <b>${t}</b>`;
+    else{snapshot();const s=S(k),ok=t<=st.v[k];st.dice=`${k} test: ${a} + ${c} = ${t} against ${st.v[k]} · ${ok?'<span class="ok">SUCCESS</span>':'<span class="no">FAILURE</span>'}`;
+      if(s.test_cost){setv(k,st.v[k]-s.test_cost);st.dice+=` · ${k} −${s.test_cost}`}}
+    save();render()});
+  const rd=document.getElementById('round');if(rd)rd.onclick=()=>{snapshot();const f=st.foe,H=COMBAT.health,y=d6()+d6()+(st.v[COMBAT.skill]||0),t=d6()+d6()+f.skill;let r;
+    if(y>t){f.hp=Math.max(0,f.hp-COMBAT.damage);r=`You ${y} · ${f.name} ${t}: you wound it.`}else if(t>y){setv(H,st.v[H]-COMBAT.damage);r=`You ${y} · ${f.name} ${t}: it wounds you. −${COMBAT.damage} ${H}.`}else r=`You ${y} · ${f.name} ${t}: a tie. Fight another round.`;
+    if(f.hp<=0)r+=' <span class="ok">You have won. Read on.</span>';if(st.v[H]<=0)r+=' <span class="no">You have lost.</span>';st.dice=r;save();render()};
+  const wf=document.getElementById('winfight');if(wf)wf.onclick=()=>{st.foe.hp=0;st.dice='<span class="ok">You choose to win. Read on.</span>';save();render()};
+  document.querySelectorAll('[data-drop]').forEach(b=>b.onclick=()=>{snapshot();drop(b.dataset.drop);save();render()});
+  document.querySelectorAll('[data-use]').forEach(b=>b.onclick=()=>{snapshot();const c=CFG.consumables[b.dataset.use];setv(c.stat,st.v[c.stat]+c.amount);drop(b.dataset.use);st.log+=' · '+c.label;save();render()});
+  const ab=document.getElementById('addbtn');if(ab)ab.onclick=()=>{const v=document.getElementById('addsel').value;if(v){snapshot();add(v);save();render()}};
+  document.getElementById('undo').onclick=undo;
+  document.getElementById('reset').onclick=()=>{const b=document.getElementById('reset');if(b.dataset.sure){st=fresh();save();render()}else{b.dataset.sure=1;b.textContent='Tap again to start over'}};
+  document.getElementById('theme').onclick=()=>{const r=document.documentElement,dark=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;r.dataset.theme=dark?'light':'dark';try{localStorage.setItem(KEY+'-theme',r.dataset.theme)}catch(e){}};
+}
+try{const t=localStorage.getItem(KEY+'-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}
+render();
+</script>
+</body>
+</html>

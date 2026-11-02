@@ -1,0 +1,210 @@
+<title>Layover Adventure Sheet</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+:root{--bg:#f4f1ea;--panel:#ffffff;--ink:#16181c;--mute:#6b6a66;--line:#d9d4c8;--amber:#b77900;--amberbg:#fff3d6;--red:#c2311b;--redbg:#fde6e1;--tile:#ece7dc;--chip:#efe9dc;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b0d10;--panel:#14171b;--ink:#f1eee6;--mute:#8e939c;--line:#262a31;--amber:#f5b10a;--amberbg:#2a1d00;--red:#ff5a3c;--redbg:#2c120d;--tile:#1b1f25;--chip:#1e2229;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0b0d10;--panel:#14171b;--ink:#f1eee6;--mute:#8e939c;--line:#262a31;--amber:#f5b10a;--amberbg:#2a1d00;--red:#ff5a3c;--redbg:#2c120d;--tile:#1b1f25;--chip:#1e2229;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 Inter,system-ui,-apple-system,sans-serif}
+.wrap{max-width:560px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px;display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+header{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+header .brand{font-weight:800;letter-spacing:.18em;font-size:13px;color:var(--mute)}
+header h1{margin:2px 0 0;font-size:22px;font-weight:800;letter-spacing:-.01em}
+.flight{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--amber);letter-spacing:.08em;text-align:right}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
+.label{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-bottom:8px}
+.turn{display:flex;gap:8px}
+.turn input{flex:1;min-width:0;width:100%;font:700 34px "JetBrains Mono",monospace;color:var(--amber);background:var(--tile);border:1px solid var(--line);border-radius:8px;padding:6px 12px;letter-spacing:.06em}
+.turn input:focus{outline:2px solid var(--amber);outline-offset:1px}
+button{font:inherit;color:var(--ink);background:var(--tile);border:1px solid var(--line);border-radius:8px;padding:8px 12px;cursor:pointer}
+button:hover{border-color:var(--amber)}
+button.primary{background:var(--amber);color:#111;border-color:var(--amber);font-weight:700}
+button.small{padding:4px 10px;font-size:13px}
+.log{margin-top:10px;font-size:14px;color:var(--mute);min-height:1.4em}
+.log b{color:var(--ink)}
+.alerts{display:grid;gap:8px}
+.alert{border-radius:10px;padding:10px 12px;font-size:14px;border:1px solid}
+.alert.warn{background:var(--amberbg);border-color:var(--amber)}
+.alert.bad{background:var(--redbg);border-color:var(--red)}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.stat{background:var(--tile);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:6px}
+.stat .n{white-space:nowrap;font:700 24px "JetBrains Mono",monospace}
+.stat .n small{font-size:14px;color:var(--mute);font-weight:500}
+.stat .row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.pm{display:flex;gap:6px}
+.pm button{width:32px;height:32px;padding:0;font-weight:700}
+.boxes{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.box{width:30px;height:30px;border:2px solid var(--line);border-radius:6px;display:grid;place-items:center;font:700 14px "JetBrains Mono",monospace;color:var(--mute)}
+.box.on{background:var(--amber);border-color:var(--amber);color:#111}
+.box.danger.on{background:var(--red);border-color:var(--red);color:#fff}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:13px;font-weight:600;letter-spacing:.04em}
+.chip button{background:none;border:0;padding:0 0 0 6px;color:var(--mute)}
+.muted{color:var(--mute);font-size:13px}
+.opts{display:flex;flex-wrap:wrap;gap:6px}
+.dice{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.result{font-family:"JetBrains Mono",monospace;font-size:14px;margin-top:8px}
+.ok{color:var(--amber);font-weight:700}.no{color:var(--red);font-weight:700}
+.trail{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--mute);word-break:break-word}
+.setup{display:grid;gap:14px}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button[aria-pressed="true"]{background:var(--amber);color:#111;border-color:var(--amber);font-weight:700}
+details summary{cursor:pointer;font-weight:600}
+.add{display:flex;gap:6px;margin-top:8px}
+.add select{flex:1;min-width:0;font:inherit;background:var(--tile);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px}
+footer{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+</style>
+
+<div class="wrap" id="app"></div>
+
+<script>
+const DATA = __DATA__;
+const SEC = DATA.sec;
+const NAMES = {SAM_TAKEN:'LOST',LAST_PAGE:'LAST PAGE',BOARDING_PASS:'BOARDING PASS',ROOM_KEY:'ROOM KEY',FIRST_AID:'FIRST-AID KIT',CHECKED_IN:'CHECKED IN',READ_INCIDENT:'INCIDENT',OFFERED:'HEARD',ECHO:'RETURNED'};
+const ITEMS = ['BOARDING_PASS','PASSPORT','LAST_PAGE','ROOM_KEY','FIRST_AID','HANDBOOK','MAP','TORCH','UNIFORM','VOUCHER'];
+const ALLCODES = ['THAW','TRUCE','CARE','TOLD','MARKED','FED','CHECKED_IN','PROMISE','FORGOT','TRANSFER','SAM_TAKEN','ECHO','OFFERED','READ_INCIDENT'];
+const nm = k => NAMES[k] || k;
+const KEY = 'layover-sheet-v1';
+let st = load();
+
+function fresh(){return {started:false,who:'SON',mode:'story',nerve:9,vig0:20,vig:20,fort0:9,fort:9,fear:0,claim:0,hours:0,flags:[],lore:[],trail:[],cp:1,cur:null,log:'',hist:[],foe:null,dice:''}}
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&typeof s==='object')return Object.assign(fresh(),s)}catch(e){}return fresh()}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}}
+const d6=()=>1+Math.floor(Math.random()*6);
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const limit=()=>st.nerve+3;
+function snapshot(){const c=JSON.parse(JSON.stringify(st));delete c.hist;st.hist.push(c);if(st.hist.length>40)st.hist.shift()}
+function undo(){const p=st.hist.pop();if(!p)return;const h=st.hist;st=Object.assign(fresh(),p);st.hist=h;save();render()}
+
+function add(f){if(!st.flags.includes(f))st.flags.push(f)}
+function drop(f){st.flags=st.flags.filter(x=>x!==f)}
+
+function go(n){
+  n=parseInt(n,10); const e=SEC[n];
+  if(!e){st.log='There is no section '+n+'.';render();return}
+  snapshot();
+  const prev=st.cur, msg=[];
+  if(prev!=null && DATA.exits.includes(prev) && DATA.hubs.includes(n)){st.hours=clamp(st.hours+1,0,6);msg.push('ticked an hour ('+st.hours+')')}
+  (e.g||[]).forEach(f=>{add(f);msg.push('noted '+nm(f))});
+  (e.l||[]).forEach(f=>{if(st.flags.includes(f)){drop(f);msg.push('crossed off '+nm(f))}});
+  if(e.f){st.fear=Math.max(0,st.fear+e.f);msg.push((e.f>0?'+':'')+e.f+' Fear')}
+  if(e.v){st.vig=clamp(st.vig+e.v,0,st.vig0);msg.push((e.v>0?'+':'')+e.v+' Vigour')}
+  if(e.c){st.claim=clamp(st.claim+e.c,0,5);msg.push('+'+e.c+' Claim')}
+  if(e.lore&&!st.lore.find(x=>x[0]===e.lore[0])){st.lore.push(e.lore);msg.push('lore: '+e.lore[1])}
+  if(e.cpt){st.cp=n;msg.push('checkpoint ✈')}
+  if(e.d){ if(e.cp==null){st.vig=st.vig0;msg.push('Vigour restored; return to ✈ '+st.cp)} else msg.push('return to '+e.cp) }
+  if(e.loop){st.claim=Math.min(st.claim,2);st.fear=0;st.vig=st.vig0;st.fort=st.fort0;st.flags=[];st.hours=0;msg.push('the night begins again')}
+  st.foe=e.foe?{name:e.foe[0],nerve:e.foe[1],vig:e.foe[2],max:e.foe[2]}:null; st.dice='';
+  st.cur=n; st.trail.push(n); if(st.trail.length>60)st.trail.shift();
+  st.log='<b>'+n+'</b>'+(msg.length?': '+msg.join(' · '):'');
+  save();render();
+}
+
+function alerts(){
+  const a=[], fc=DATA.finalcall;
+  const e=st.cur!=null?SEC[st.cur]:null;
+  if(e&&e.d){a.push(['bad', e.cp==null?`You can't go on. Turn back to your last ✈ checkpoint, section <b>${st.cp}</b>. Your Vigour is restored.`:`Turn back to section <b>${e.cp}</b> and choose again.`])}
+  if(e&&e.end&&!e.loop){a.push(['warn','This is an ending. Start a new night from the button at the bottom when you are ready.'])}
+  if(st.claim>=5)a.push(['bad',`Your Claim has reached 5. Turn to section <b>${fc}</b>.`]);
+  else if(st.claim===4)a.push(['warn','Claim 4: no seat on the aircraft will take you. One more letter and it has you.']);
+  if(st.fear>=limit())a.push(['bad',`Your Fear has reached its limit. Turn to section <b>${fc}</b>.`]);
+  if(st.vig<=0&&!(e&&e.d))a.push(['bad',`Your Vigour is 0. Turn to section <b>${DATA.vigdeath}</b>.`]);
+  if(st.hours>=6)a.push(['bad',`Six hours. The gate has closed. Turn to section <b>${fc}</b>.`]);
+  return a;
+}
+
+function stat(id,label,val,sub){return `<div class="stat"><div class="label" style="margin:0">${label}</div><div class="row"><div class="n">${val}${sub?` <small>${sub}</small>`:''}</div><div class="pm"><button aria-label="Lower ${label}" data-adj="${id}" data-d="-1">−</button><button aria-label="Raise ${label}" data-adj="${id}" data-d="1">+</button></div></div></div>`}
+function boxes(id,n,on,danger){let h='';for(let i=1;i<=n;i++)h+=`<span class="box ${on>=i?'on':''} ${danger&&i>=4?'danger':''}">${id==='hours'?String(i).padStart(2,'0'):''}</span>`;return h}
+
+function render(){
+  const app=document.getElementById('app');
+  if(!st.started){app.innerHTML=setupView();bindSetup();return}
+  const e=st.cur!=null?SEC[st.cur]:{};
+  const items=st.flags.filter(f=>ITEMS.includes(f)), codes=st.flags.filter(f=>!ITEMS.includes(f));
+  const al=alerts();
+  app.innerHTML=`
+  <header><div><div class="brand">THE LAYOVER</div><h1>Adventure Sheet</h1></div>
+  <div class="flight">LV 137 · ${st.who}<br>${st.mode==='story'?'STORY MODE':'SURVIVAL'}</div></header>
+  <section class="panel"><div class="label">Turn to</div>
+    <form class="turn" id="turn"><input class="mono" id="secno" size="4" inputmode="numeric" pattern="[0-9]*" placeholder="${st.cur??'1'}" aria-label="Section number" autocomplete="off"><button class="primary" type="submit">Go</button></form>
+    <div class="log">${st.log||'Type the number of the section you have just turned to. The sheet applies what the book tells you to do there.'}</div>
+  </section>
+  ${al.length?`<div class="alerts">${al.map(x=>`<div class="alert ${x[0]}">${x[1]}</div>`).join('')}</div>`:''}
+  ${e.opt?`<section class="panel"><div class="label">This page may ask you to</div><div class="opts">${e.opt.map(o=>`<button class="small" data-opt="${o}">${o}</button>`).join('')}</div><div class="muted" style="margin-top:6px">Tap only what your choice actually costs.</div></section>`:''}
+  <section class="stats">
+    ${stat('nerve','Nerve',st.nerve)}
+    ${stat('vig','Vigour',st.vig,'/ '+st.vig0)}
+    ${stat('fort','Fortune',st.fort,'/ '+st.fort0)}
+    ${stat('fear','Fear',st.fear,'/ '+limit())}
+  </section>
+  <section class="panel"><div class="row" style="display:flex;justify-content:space-between;align-items:center"><div class="label" style="margin:0">Claim</div><div class="pm"><button data-adj="claim" data-d="-1" aria-label="Lower Claim">−</button><button data-adj="claim" data-d="1" aria-label="Raise Claim">+</button></div></div>
+    <div class="boxes" style="margin-top:8px">${boxes('claim',5,st.claim,true)}</div>
+    <div class="muted" style="margin-top:6px">At 4 the true ending closes. At 5, Final Call.</div></section>
+  <section class="panel"><div class="row" style="display:flex;justify-content:space-between;align-items:center"><div class="label" style="margin:0">Hours</div><div class="pm"><button data-adj="hours" data-d="-1" aria-label="Lower hours">−</button><button data-adj="hours" data-d="1" aria-label="Raise hours">+</button></div></div>
+    <div class="boxes" style="margin-top:8px">${boxes('hours',6,st.hours,false)}</div>
+    <div class="muted" style="margin-top:6px">Ticked for you when you come back to the Atrium from a zone.</div></section>
+  ${st.foe?combatView():''}
+  <section class="panel"><div class="label">Dice</div><div class="dice">
+    <button data-roll="nerve">Test Nerve</button><button data-roll="fort">Test Fortune</button><button data-roll="2d6">Roll 2d6</button>
+    ${st.mode==='story'?'<span class="muted">Story Mode: you may simply choose the outcome.</span>':''}</div>
+    ${st.dice?`<div class="result">${st.dice}</div>`:''}</section>
+  <section class="panel"><div class="label">Items</div><div class="chips">${items.length?items.map(chip).join(''):'<span class="muted">Nothing yet</span>'}</div>
+    ${st.flags.includes('FIRST_AID')?`<div style="margin-top:8px"><button class="small" id="aid">Use the first-aid kit (+6 Vigour)</button></div>`:''}
+    <div class="label" style="margin-top:14px">Codewords</div><div class="chips">${codes.length?codes.map(chip).join(''):'<span class="muted">None yet</span>'}</div>
+    <details style="margin-top:12px"><summary>Add one by hand</summary><div class="add"><select id="addsel">${[...ITEMS,...ALLCODES].filter(f=>!st.flags.includes(f)).map(f=>`<option value="${f}">${nm(f)}</option>`).join('')}</select><button class="small" id="addbtn">Add</button></div></details></section>
+  <section class="panel"><div class="label">What you know</div>${st.lore.length?`<div class="chips">${st.lore.map(l=>`<span class="chip">${l[1]}</span>`).join('')}</div>`:'<span class="muted">Nothing yet. Keep reading.</span>'}
+    <div class="label" style="margin-top:14px">Last checkpoint ✈</div><div class="mono">${st.cp}</div>
+    <div class="label" style="margin-top:14px">Your trail</div><div class="trail">${st.trail.slice(-24).join(' → ')||'—'}</div></section>
+  <footer><button id="undo" ${st.hist.length?'':'disabled'}>Undo last</button><button id="theme">Light / dark</button><button id="reset">New night</button></footer>`;
+  bindMain();
+}
+function chip(f){return `<span class="chip">${nm(f)}<button aria-label="Cross off ${nm(f)}" data-drop="${f}">×</button></span>`}
+function combatView(){const f=st.foe;return `<section class="panel"><div class="label">Fight: ${f.name}</div>
+  <div class="stats"><div class="stat"><div class="label" style="margin:0">Their Nerve</div><div class="n">${f.nerve}</div></div><div class="stat"><div class="label" style="margin:0">Their Vigour</div><div class="n">${f.vig} <small>/ ${f.max}</small></div></div></div>
+  <div class="dice" style="margin-top:10px">${f.vig>0&&st.vig>0?'<button class="primary" id="round">Fight a round</button>':''}${st.mode==='story'?'<button id="winfight">Choose to win</button>':''}</div></section>`}
+
+function setupView(){return `<header><div><div class="brand">THE LAYOVER</div><h1>Adventure Sheet</h1></div><div class="flight">LV 137<br>23:52 · DELAYED</div></header>
+  <section class="panel setup">
+    <div><div class="label">Who were you to him?</div><div class="seg" id="who">${['SON','DAUGHTER','KID'].map(w=>`<button aria-pressed="${st.who===w}" data-who="${w}">${w}</button>`).join('')}</div></div>
+    <div><div class="label">How do you want to travel?</div><div class="seg" id="mode"><button aria-pressed="${st.mode==='story'}" data-mode="story">Story Mode</button><button aria-pressed="${st.mode==='survival'}" data-mode="survival">Survival Mode</button></div>
+      <div class="muted" style="margin-top:6px">${st.mode==='story'?'Nerve 9, Vigour 20, Fortune 9. Choose the outcome of tests and fights.':'Roll your scores. Every test and fight is played by the dice.'}</div></div>
+    ${st.mode==='survival'?`<div class="stats">${['nerve','vig0','fort0'].map((k,i)=>`<div class="stat"><div class="label" style="margin:0">${['Nerve','Vigour','Fortune'][i]}</div><div class="n">${st[k]}</div></div>`).join('')}<div class="stat" style="justify-content:center"><button id="rollstats">Roll scores</button></div></div>`:''}
+    <button class="primary" id="begin">Begin at section 1</button>
+    <div class="muted">Keep this open beside your Kindle. It remembers your night on this device.</div>
+  </section>`}
+function bindSetup(){
+  document.querySelectorAll('[data-who]').forEach(b=>b.onclick=()=>{st.who=b.dataset.who;render()});
+  document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{st.mode=b.dataset.mode;if(st.mode==='story'){st.nerve=9;st.vig0=20;st.fort0=9}else rollStats();render()});
+  const r=document.getElementById('rollstats');if(r)r.onclick=()=>{rollStats();render()};
+  document.getElementById('begin').onclick=()=>{st.vig=st.vig0;st.fort=st.fort0;st.started=true;st.cur=null;go(1)};
+}
+function rollStats(){st.nerve=d6()+6;st.vig0=d6()+d6()+12;st.fort0=d6()+6}
+function bindMain(){
+  document.getElementById('turn').onsubmit=ev=>{ev.preventDefault();const v=document.getElementById('secno').value.trim();if(v)go(v)};
+  document.querySelectorAll('[data-adj]').forEach(b=>b.onclick=()=>{snapshot();const k=b.dataset.adj,dlt=+b.dataset.d;
+    if(k==='vig')st.vig=clamp(st.vig+dlt,0,st.vig0);else if(k==='fort')st.fort=clamp(st.fort+dlt,0,12);else if(k==='claim')st.claim=clamp(st.claim+dlt,0,5);else if(k==='hours')st.hours=clamp(st.hours+dlt,0,6);else if(k==='fear')st.fear=Math.max(0,st.fear+dlt);else if(k==='nerve')st.nerve=clamp(st.nerve+dlt,1,12);save();render()});
+  document.querySelectorAll('[data-opt]').forEach(b=>b.onclick=()=>{snapshot();const o=b.dataset.opt.toLowerCase(),n=parseInt(o.match(/\d+/)[0],10);
+    if(o.includes('vigour'))st.vig=clamp(st.vig-n,0,st.vig0);else if(o.startsWith('gain')&&o.includes('fear'))st.fear+=n;else if(o.startsWith('lose')&&o.includes('fear'))st.fear=Math.max(0,st.fear-n);else if(o.startsWith('add'))st.claim=clamp(st.claim+n,0,5);else if(o.startsWith('cross off'))st.claim=clamp(st.claim-n,0,5);
+    st.log+=' · '+b.dataset.opt;save();render()});
+  document.querySelectorAll('[data-roll]').forEach(b=>b.onclick=()=>{const a=d6(),c=d6(),t=a+c,k=b.dataset.roll;
+    if(k==='2d6')st.dice=`Rolled ${a} + ${c} = <b>${t}</b>`;
+    else if(k==='nerve')st.dice=`Nerve test: ${a} + ${c} = ${t} against ${st.nerve} · ${t<=st.nerve?'<span class="ok">SUCCESS</span>':'<span class="no">FAILURE</span>'}`;
+    else{snapshot();const ok=t<=st.fort;st.dice=`Fortune test: ${a} + ${c} = ${t} against ${st.fort} · ${ok?'<span class="ok">LUCKY</span>':'<span class="no">UNLUCKY</span>'} · Fortune −1`;st.fort=Math.max(0,st.fort-1)}
+    save();render()});
+  const rd=document.getElementById('round');if(rd)rd.onclick=()=>{snapshot();const f=st.foe,y=d6()+d6()+st.nerve,t=d6()+d6()+f.nerve;let r;
+    if(y>t){f.vig=Math.max(0,f.vig-2);r=`You ${y} · ${f.name} ${t}: you wound it.`}else if(t>y){st.vig=Math.max(0,st.vig-2);r=`You ${y} · ${f.name} ${t}: it wounds you. −2 Vigour.`}else r=`You ${y} · ${f.name} ${t}: a tie. Fight another round.`;
+    if(f.vig<=0)r+=' <span class="ok">You have won. Read on.</span>';if(st.vig<=0)r+=' <span class="no">You have lost.</span>';st.dice=r;save();render()};
+  const wf=document.getElementById('winfight');if(wf)wf.onclick=()=>{st.foe.vig=0;st.dice='<span class="ok">You choose to win. Read on.</span>';save();render()};
+  document.querySelectorAll('[data-drop]').forEach(b=>b.onclick=()=>{snapshot();drop(b.dataset.drop);save();render()});
+  const ab=document.getElementById('addbtn');if(ab)ab.onclick=()=>{const v=document.getElementById('addsel').value;if(v){snapshot();add(v);save();render()}};
+  const aid=document.getElementById('aid');if(aid)aid.onclick=()=>{snapshot();st.vig=clamp(st.vig+6,0,st.vig0);drop('FIRST_AID');st.log+=' · used the first-aid kit';save();render()};
+  document.getElementById('undo').onclick=undo;
+  document.getElementById('reset').onclick=()=>{const b=document.getElementById('reset');if(b.dataset.sure){st=fresh();save();render()}else{b.dataset.sure=1;b.textContent='Tap again to start over'}};
+  document.getElementById('theme').onclick=()=>{const r=document.documentElement,dark=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;r.dataset.theme=dark?'light':'dark';try{localStorage.setItem(KEY+'-theme',r.dataset.theme)}catch(e){}};
+}
+try{const t=localStorage.getItem(KEY+'-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}
+render();
+</script>

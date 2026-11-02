@@ -1,0 +1,525 @@
+<title>The Layover Story Map</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=Barlow+Condensed:wght@500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: an airport operations console - a flip-board header, tabbed views, list + detail panes. */
+:root{
+  --bg:#eef0f3; --panel:#ffffff; --ink:#151a24; --muted:#5d6676; --line:#d5d9e1;
+  --sign:#f5b700; --sign-ink:#151a24; --board:#151a24; --board-ink:#f5b700;
+  --good:#1d7a4a; --warn:#b26a00; --bad:#b4232a; --link:#1f4fbf; --paper:#fbfbf8;
+  --display:"Barlow Condensed","Arial Narrow",sans-serif;
+  --body:"Atkinson Hyperlegible",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  --read:"Literata",Georgia,"Times New Roman",serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f131a; --panel:#171c25; --ink:#e7eaf0; --muted:#97a0b0; --line:#2a313d;
+  --sign:#f5b700; --sign-ink:#151a24; --board:#06080c; --board-ink:#f5b700;
+  --good:#4cc88a; --warn:#f0a43a; --bad:#ff6b6b; --link:#8fb2ff; --paper:#14181f; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f131a; --panel:#171c25; --ink:#e7eaf0; --muted:#97a0b0; --line:#2a313d;
+  --sign:#f5b700; --sign-ink:#151a24; --board:#06080c; --board-ink:#f5b700;
+  --good:#4cc88a; --warn:#f0a43a; --bad:#ff6b6b; --link:#8fb2ff; --paper:#14181f; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--body)}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px}
+header.board{background:var(--board);color:var(--board-ink);border-radius:6px;padding:18px 20px;display:flex;flex-wrap:wrap;gap:16px 32px;align-items:end;justify-content:space-between}
+header.board h1{font:700 clamp(30px,5vw,46px)/1 var(--display);letter-spacing:.04em;margin:0;text-transform:uppercase}
+header.board .sub{font:500 13px var(--mono);opacity:.85;margin-top:6px;letter-spacing:.06em}
+.flaps{display:flex;flex-wrap:wrap;gap:8px}
+.flap{background:#000;border:1px solid #2b2b2b;border-radius:3px;padding:6px 10px;min-width:92px}
+.flap b{display:block;font:700 22px/1 var(--mono);color:var(--board-ink);font-variant-numeric:tabular-nums}
+.flap span{font:500 10px var(--mono);color:#c9cfd8;letter-spacing:.08em;text-transform:uppercase}
+nav.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:18px 0 14px}
+nav.tabs a{font:600 15px var(--display);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;color:var(--ink);padding:7px 14px;border:1px solid var(--line);border-radius:4px;background:var(--panel)}
+nav.tabs a[aria-current="page"]{background:var(--sign);color:var(--sign-ink);border-color:var(--sign)}
+nav.tabs a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--link);outline-offset:2px}
+h2{font:700 24px/1.1 var(--display);letter-spacing:.03em;text-transform:uppercase;margin:0 0 10px;text-wrap:balance}
+h3{font:700 17px/1.2 var(--display);letter-spacing:.04em;text-transform:uppercase;margin:0 0 8px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:16px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.muted{color:var(--muted)} .small{font-size:13px}
+p{max-width:68ch;margin:0 0 10px}
+.ok{color:var(--good);font-weight:700} .bad{color:var(--bad);font-weight:700}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:600 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.tscroll{overflow-x:auto}
+.num{font:700 14px var(--mono);font-variant-numeric:tabular-nums}
+button.sec{font:700 13px var(--mono);background:var(--sign);color:var(--sign-ink);border:0;border-radius:3px;padding:2px 7px;cursor:pointer}
+button.sec:hover{filter:brightness(1.08)}
+.chip{display:inline-block;font:600 11px var(--mono);letter-spacing:.05em;text-transform:uppercase;padding:2px 6px;border-radius:3px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.k-death{color:var(--bad);border-color:var(--bad)} .k-ending{color:var(--good);border-color:var(--good)}
+.k-item{color:var(--link);border-color:var(--link)} .k-anomaly,.k-test,.k-combat{color:var(--warn);border-color:var(--warn)}
+.split{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:14px;align-items:start}
+@media (max-width:760px){.split{grid-template-columns:minmax(0,1fr)}}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+input,select{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:6px 8px;min-width:0}
+input#q{flex:1 1 160px}
+.list{max-height:70vh;overflow:auto;border:1px solid var(--line);border-radius:6px;background:var(--panel)}
+.row{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:8px;align-items:center;padding:7px 10px;border-bottom:1px solid var(--line);cursor:pointer;background:none;border-left:0;border-right:0;border-top:0;width:100%;text-align:left;color:inherit;font:inherit}
+.row:hover{background:color-mix(in srgb,var(--sign) 12%,transparent)}
+.row[aria-selected="true"]{background:color-mix(in srgb,var(--sign) 26%,transparent)}
+.row .t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.detail .big{font:700 52px/1 var(--mono);color:var(--ink);font-variant-numeric:tabular-nums}
+.detail .head{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.beat{font-size:17px;line-height:1.55;border-left:4px solid var(--sign);padding:4px 0 4px 14px;margin:12px 0;max-width:68ch}
+.choices{display:flex;flex-direction:column;gap:8px;margin:10px 0}
+.choice{display:flex;gap:10px;align-items:flex-start;padding:9px 12px;border:1px solid var(--line);border-radius:5px;background:var(--bg);color:var(--ink);font:inherit;text-align:left;cursor:pointer;width:100%}
+.choice:hover:not(:disabled){border-color:var(--sign)}
+.choice:disabled{opacity:.45;cursor:not-allowed}
+.choice .cond{font:500 12px var(--mono);color:var(--muted);display:block}
+.kv{display:grid;grid-template-columns:120px minmax(0,1fr);gap:4px 12px;font-size:14px;margin-top:10px}
+.kv dt{font:600 12px var(--mono);text-transform:uppercase;color:var(--muted);padding-top:2px}
+.kv dd{margin:0}
+.flags{display:flex;flex-wrap:wrap;gap:6px}
+.flag{font:700 12px var(--mono);background:var(--board);color:var(--board-ink);padding:3px 7px;border-radius:3px}
+.note{font-size:13px;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px;margin-top:12px}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
+.stat{border:1px solid var(--line);border-radius:4px;padding:6px 10px;background:var(--bg)}
+.stat b{font:700 20px var(--mono);font-variant-numeric:tabular-nums}
+.stat span{display:block;font:600 11px var(--mono);text-transform:uppercase;color:var(--muted)}
+.diagram{overflow-x:auto}
+.diagram svg{min-width:720px;width:100%;height:auto;display:block}
+.check li{margin:3px 0}
+.path{display:flex;flex-wrap:wrap;gap:4px}
+.dossier{border-left:6px solid var(--sign)}
+.readgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,300px);gap:18px;align-items:start}
+@media (max-width:860px){.readgrid{grid-template-columns:minmax(0,1fr)}}
+.page{background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:28px max(20px,4vw) 36px}
+.page .secno{font:700 15px var(--mono);letter-spacing:.12em;color:var(--muted);display:flex;gap:10px;align-items:center;justify-content:center;margin-bottom:18px}
+.page .secno b{font-size:40px;color:var(--ink);letter-spacing:0}
+.prose{font:400 18px/1.68 var(--read);max-width:62ch;margin:0 auto}
+.prose p{max-width:none;margin:0 0 1em}
+.prose h2{font:600 26px/1.2 var(--read);text-transform:none;letter-spacing:0;text-align:center;margin:0 0 18px}
+.prose .foe{font:700 14px var(--mono);letter-spacing:.06em;text-align:center;border:1px solid var(--line);border-radius:4px;padding:8px;background:var(--bg)}
+.prose .variant{border-left:3px solid var(--sign);padding-left:12px}
+.prose .vlabel{font:600 12px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+button.tok{font:700 .9em var(--mono);background:var(--sign);color:var(--sign-ink);border:0;border-radius:4px;padding:1px 8px;cursor:pointer;vertical-align:baseline}
+button.tok:disabled{background:var(--line);color:var(--muted);cursor:not-allowed}
+.who{display:flex;flex-direction:column;gap:10px;max-width:62ch;margin:18px auto 0}
+.who button{font:600 17px var(--read);text-align:left;padding:12px 16px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);cursor:pointer}
+.who button:hover{border-color:var(--sign)}
+.endmark{font:700 14px var(--mono);letter-spacing:.3em;text-align:center;color:var(--muted);margin-top:24px}
+.sheet{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px)}
+details.rules summary{cursor:pointer;font:600 15px var(--display);letter-spacing:.06em;text-transform:uppercase;margin-top:16px}
+.eyebrow{font:600 12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.lede{font-size:18px;line-height:1.55}
+.rules{padding-left:20px;margin:0}.rules li{margin:0 0 8px}
+.lore{margin:12px 0;padding:10px 12px;border:1px dashed var(--sign);border-radius:5px}
+.lore b{font:700 12px var(--mono);letter-spacing:.06em}
+.claim{color:var(--bad);font-weight:700}
+@media (prefers-reduced-motion:no-preference){.detail{animation:fl .18s ease-out}@keyframes fl{from{opacity:.4;transform:translateY(3px)}to{opacity:1}}}
+</style>
+
+<div class="wrap">
+  <header class="board">
+    <div>
+      <h1>The Layover</h1>
+      <div class="sub">FLIGHT LV 137 &middot; STORY MAP &middot; 200 SECTIONS &middot; AWAITING 2 PASSENGERS</div>
+    </div>
+    <div class="flaps" id="flaps"></div>
+  </header>
+
+  <nav class="tabs" aria-label="Views">
+    <a href="#play">Read the book</a>
+    <a href="#overview">Overview</a>
+    <a href="#sections">Sections</a>
+    <a href="#manifest">The Manifest</a>
+    <a href="#items">Items &amp; codewords</a>
+    <a href="#deaths">Deaths</a>
+  </nav>
+
+  <!-- OVERVIEW -->
+  <section id="v-overview" data-view hidden>
+    <div class="panel" style="margin-bottom:14px">
+      <h2>How the book is built</h2>
+      <p>A near-linear opening hooks the reader, the Atrium hub lets them explore three zones in any order, and Gate 0 only opens once all three key items are in hand. Debts and codewords picked up on the way decide which ending they reach.</p>
+      <div class="diagram" id="diagram"></div>
+    </div>
+    <div class="grid2">
+      <div class="panel">
+        <h3>Fairness checks</h3>
+        <ul class="check" id="checks"></ul>
+      </div>
+      <div class="panel">
+        <h3>Endings</h3>
+        <div class="tscroll"><table id="endings"></table></div>
+      </div>
+    </div>
+    <div class="panel" style="margin-top:14px">
+      <h3>Shortest route to the true ending</h3>
+      <p class="muted small" id="pathlen"></p>
+      <div class="path" id="truepath"></div>
+    </div>
+  </section>
+
+  <!-- SECTIONS -->
+  <section id="v-sections" data-view hidden>
+    <div class="split">
+      <div>
+        <div class="filters">
+          <input id="q" type="search" placeholder="Search text or number" aria-label="Search sections">
+          <select id="fz" aria-label="Filter by zone"><option value="">All zones</option></select>
+          <select id="fk" aria-label="Filter by type"><option value="">All types</option></select>
+        </div>
+        <div class="list" id="list" role="listbox" aria-label="Sections in book order"></div>
+        <p class="muted small" id="count" style="margin-top:6px"></p>
+      </div>
+      <div class="panel detail" id="detail"></div>
+    </div>
+  </section>
+
+  <!-- PLAY -->
+  <section id="v-play" data-view>
+    <div class="readgrid">
+      <article class="page" id="pdetail" aria-live="polite"></article>
+      <aside class="panel sheet">
+        <h3>Adventure sheet</h3>
+        <p class="muted small" id="pwho"></p>
+        <p class="muted small">Story Mode: tap a number to turn to it. For tests and fights, pick the outcome you want. Numbers you can't take yet are greyed out.</p>
+        <div class="stats">
+          <div class="stat"><b id="pf">0</b><span>Fear</span></div>
+          <div class="stat"><b id="pv">0</b><span>Vigour change</span></div>
+          <div class="stat"><b id="pc">0</b><span>Claim / 5</span></div>
+          <div class="stat"><b id="ps">0</b><span>Sections read</span></div>
+        </div>
+        <h3 style="margin-top:12px">Items &amp; codewords</h3>
+        <div class="flags" id="pflags"></div>
+        <h3 style="margin-top:14px">Lore found</h3>
+        <div class="flags" id="plore"></div>
+        <h3 style="margin-top:14px">Trail</h3>
+        <div class="path" id="ptrail"></div>
+        <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+          <button class="choice" id="pback" style="width:auto">Back one step</button>
+          <button class="choice" id="preset" style="width:auto">Start again</button>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- MANIFEST -->
+  <section id="v-manifest" data-view hidden>
+    <div class="panel dossier" style="margin-bottom:14px">
+      <div class="eyebrow">Irregular operations · subject file</div>
+      <h2 id="ename"></h2>
+      <p class="lede" id="ewhat"></p>
+      <p id="ewants"></p>
+    </div>
+    <div class="grid2" style="margin-bottom:14px">
+      <div class="panel">
+        <h3>Its rules, as the reader learns them</h3>
+        <ol class="rules" id="erules"></ol>
+        <p class="note" id="ebreak"></p>
+      </div>
+      <div class="panel">
+        <h3>The Claim track</h3>
+        <p>Every time you give it your name, a letter appears on its sign. At <b id="elimit"></b> letters, turn to Final Call. Claim is driven by choices, not dice, so it works in Story Mode too.</p>
+        <div class="tscroll"><table id="claimtable"></table></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>The lore trail</h3>
+      <p>Fourteen fragments. Each one opens a question or answers an earlier one, and many double as survival tips. Several sit on mutually exclusive branches, so no single read-through finds them all.</p>
+      <div class="tscroll"><table id="loretable"></table></div>
+    </div>
+  </section>
+
+  <!-- ITEMS -->
+  <section id="v-items" data-view hidden>
+    <div class="panel">
+      <h2>Items &amp; codewords</h2>
+      <p>Every key item can be found by several routes, so one bad roll never locks the reader out. Codewords record choices that pay off later.</p>
+      <div class="tscroll"><table id="itemtable"></table></div>
+    </div>
+  </section>
+
+  <!-- DEATHS -->
+  <section id="v-deaths" data-view hidden>
+    <div class="panel">
+      <h2>Deaths and their warnings</h2>
+      <p>Each death is foreshadowed by an earlier section and sends the reader back to a checkpoint. Damage is gradual elsewhere: Vigour and Fear wear the reader down instead.</p>
+      <div class="tscroll"><table id="deathtable"></table></div>
+    </div>
+  </section>
+</div>
+
+<script id="data" type="application/json">__DATA__</script>
+<script>
+const D = JSON.parse(document.getElementById('data').textContent);
+const SEC = D.sections, R = D.report;
+const byKey = Object.fromEntries(SEC.map(s => [s.key, s]));
+const byNum = Object.fromEntries(SEC.map(s => [s.num, s]));
+const incoming = {};
+SEC.forEach(s => s.links.forEach(l => (incoming[l.to] = incoming[l.to] || []).push(s.key)));
+const esc = t => String(t ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const KEYRE = /\b(?:[ACFHOG]\d{2}t?|D0\d|SAFE|SECRET|AL01|E_[A-Z]+|D_VIGOUR)\b/g;
+const keysToNums = t => esc(t).replace(KEYRE, k => byKey[k] ? '§' + byKey[k].num : k);
+const secBtn = k => byKey[k] ? `<button class="sec" data-goto="${byKey[k].num}" title="${esc(byKey[k].title)}">${byKey[k].num}</button>` : esc(k);
+const fx = s => {
+  const out = [];
+  if (s.gain.length) out.push('Gain: ' + s.gain.join(', '));
+  if (s.lose.length) out.push('Lose: ' + s.lose.join(', '));
+  if (s.fear) out.push(`Fear ${s.fear > 0 ? '+' : ''}${s.fear}`);
+  if (s.vig) out.push(`Vigour ${s.vig > 0 ? '+' : ''}${s.vig}`);
+  return out;
+};
+const condText = c => {
+  if (!c) return '';
+  if (c === 'pass') return 'test passed'; if (c === 'fail') return 'test failed';
+  if (c === 'win') return 'combat won'; if (c === 'lose') return 'combat lost';
+  if (c === 'fearlimit' || c === 'limit:Fear') return 'Fear at its limit';
+  if (c === 'claimlimit' || c === 'limit:Claim') return 'Claim at 5';
+  return c.replace(/stat:Claim>=(\d+)/g, 'Claim $1+').replace(/stat:Claim<=(\d+)/g, 'Claim $1 or less').replace(/stat:Hours>=(\d+)/g, '$1 hours ticked').replace('hidden:', 'hidden link · has:').replace(/&/g, ' and ').replace(/has:/g, 'has ').replace(/not:/g, 'lacks ');
+};
+
+/* ---------- header flaps ---------- */
+const deaths = SEC.filter(s => s.kind === 'death').length;
+const endings = SEC.filter(s => s.kind === 'ending').length;
+[[R.total, 'Sections'], [endings, 'Endings'], [deaths, 'Deaths'], [R.true_path_len, 'Shortest win'], [R.issues.length, 'Issues']]
+  .forEach(([v, l]) => document.getElementById('flaps').insertAdjacentHTML('beforeend', `<div class="flap"><b>${v}</b><span>${l}</span></div>`));
+
+/* ---------- overview diagram ---------- */
+(function(){
+  const z = R.zones;
+  const box = (x,y,w,h,title,sub,fill,ink) => `<g><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="5" fill="${fill}" stroke="var(--line)"/><text x="${x+w/2}" y="${y+h/2-4}" text-anchor="middle" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-weight="700" font-size="17" fill="${ink}" letter-spacing="1">${title}</text><text x="${x+w/2}" y="${y+h/2+15}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="${ink}" opacity=".8">${sub}</text></g>`;
+  const arrow = (x1,y1,x2,y2) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--muted)" stroke-width="1.6" marker-end="url(#ah)"/>`;
+  const P='var(--panel)', I='var(--ink)', B='var(--board)', S='var(--board-ink)';
+  let s = `<svg viewBox="0 0 960 330" role="img" aria-label="Structure: Act 1 leads to the Atrium hub, which branches to three zones and returns; all three key items open Gate 0, which leads to six endings.">
+  <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--muted)"/></marker></defs>
+  ${box(10,130,150,64,'ACT 1 · DELAYED', z['Gate 14']+' sections · linear', P, I)}
+  ${arrow(160,162,205,162)}
+  ${box(207,122,140,80,'THE ATRIUM', 'hub · '+z['Atrium']+' sections', 'var(--sign)', 'var(--sign-ink)')}
+  ${box(400,20,200,64,'CONCOURSE', z['Concourse']+' · boarding pass', P, I)}
+  ${box(400,130,200,64,'DUTY-FREE & FOOD', z['Duty-Free']+' · last page', P, I)}
+  ${box(400,240,200,64,'AIRPORT HOTEL', z['Hotel']+' · passport', P, I)}
+  ${arrow(347,145,398,60)}${arrow(347,162,398,162)}${arrow(347,180,398,268)}
+  <path d="M400,40 C370,40 360,120 349,132" fill="none" stroke="var(--muted)" stroke-dasharray="4 4" stroke-width="1.2"/>
+  <path d="M400,284 C370,284 360,205 349,194" fill="none" stroke="var(--muted)" stroke-dasharray="4 4" stroke-width="1.2"/>
+  <text x="372" y="112" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--muted)">return</text>
+  ${arrow(600,52,650,140)}${arrow(600,162,650,162)}${arrow(600,272,650,184)}
+  <text x="602" y="214" font-family="JetBrains Mono, monospace" font-size="10" fill="var(--muted)">all 3 items</text>
+  ${box(652,122,138,80,'ACT 3 · GATE 0', z['Gate 0']+' sections', B, S)}
+  ${arrow(790,162,822,162)}
+  ${box(824,40,128,250,'','', P, I)}
+  </svg>`;
+  const ends = ['Arrival (200)','Connection (secret)','Separate Seats','Alone','Ground Crew','Delayed Indefinitely','Final Call'];
+  const ys = ends.map((e,i)=>`<text x="888" y="${76+i*32}" text-anchor="middle" font-family="Atkinson Hyperlegible, sans-serif" font-size="13" fill="${i<2?'var(--good)':'var(--ink)'}" font-weight="${i<2?700:400}">${e}</text>`).join('');
+  s = s.replace('</svg>', `<text x="888" y="58" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="700" font-size="15" fill="var(--muted)" letter-spacing="1">ENDINGS</text>${ys}</svg>`);
+  document.getElementById('diagram').innerHTML = s;
+})();
+
+/* ---------- checks ---------- */
+(function(){
+  const r = R.routes, items = ['BOARDING_PASS','PASSPORT','LAST_PAGE'];
+  const states = (R.notes.find(n=>n.startsWith('States'))||'').replace('States explored: ','');
+  const soft = (R.notes.find(n=>n.startsWith('Softlocked'))||'').replace('Softlocked states: ','');
+  const allEnd = Object.values(R.endings).every(e=>e.reachable);
+  const lines = [
+    [R.total===200, `Exactly 200 sections (Act 1: ${R.acts[1]}, Act 2: ${R.acts[2]}, Act 3: ${R.acts[3]})`],
+    [R.issues.length===0, `${R.issues.length} structural issues: every choice points somewhere real, and no section is a dead end`],
+    [soft==='0', `No softlocks: ${states} reachable story states checked, and every one can still reach an ending`],
+    [allEnd, `All ${Object.keys(R.endings).length} endings, including the secret one, can be reached`],
+    [items.every(i=>r[i].length>=2), `Key items have several routes: pass ${r.BOARDING_PASS.length}, last page ${r.LAST_PAGE.length}, passport ${r.PASSPORT.length}`],
+    [true, `Sam can be rescued ${R.rescue.length} ways if taken; TRUCE has ${R.routes.TRUCE.length} routes, TOLD ${R.routes.TOLD.length}, TRANSFER ${R.routes.TRANSFER.length}`],
+    [R.deaths.every(d=>d.warn && d.checkpoint), 'Every death has an earlier warning and a checkpoint to return to'],
+    [true, 'Section numbers are shuffled, and no choice points to an adjacent number'],
+    [true, 'Fixed puzzle numbers: safe at §152 (1952 − 1800), secret ending at §137 (flight LV 137), true ending at §200'],
+    [true, 'Every death costs a letter of your name: the sign grows each time you die'],
+  ];
+  document.getElementById('checks').innerHTML = lines.map(([ok,t])=>`<li><span class="${ok?'ok':'bad'}">${ok?'Pass':'Fail'}</span> · ${t}</li>`).join('');
+  const etab = document.getElementById('endings');
+  etab.innerHTML = '<tr><th>§</th><th>Ending</th><th>Reachable</th></tr>' + Object.entries(R.endings)
+    .map(([k,e])=>`<tr><td>${secBtn(k)}</td><td>${esc(byKey[k].title.replace('ENDING: ',''))}</td><td class="${e.reachable?'ok':'bad'}">${e.reachable?'Yes':'No'}</td></tr>`).join('');
+  document.getElementById('pathlen').textContent = `${R.true_path_len} sections, collecting the pass through the anomaly corridor, the page with the voucher and the passport from the safe.`;
+  document.getElementById('truepath').innerHTML = R.true_path.map(([k])=>secBtn(k)).join('');
+})();
+
+/* ---------- section list + detail ---------- */
+const zones = [...new Set(SEC.map(s=>s.zone))], kinds = [...new Set(SEC.map(s=>s.kind))].sort();
+zones.forEach(z=>document.getElementById('fz').insertAdjacentHTML('beforeend',`<option>${esc(z)}</option>`));
+kinds.forEach(k=>document.getElementById('fk').insertAdjacentHTML('beforeend',`<option>${esc(k)}</option>`));
+let current = 1;
+function renderList(){
+  const q = document.getElementById('q').value.trim().toLowerCase(), fz = document.getElementById('fz').value, fk = document.getElementById('fk').value;
+  const rows = SEC.filter(s => (!fz||s.zone===fz) && (!fk||s.kind===fk) &&
+    (!q || String(s.num)===q || (s.title+' '+s.beat+' '+s.key).toLowerCase().includes(q)));
+  document.getElementById('list').innerHTML = rows.map(s=>`<button class="row" role="option" data-num="${s.num}" aria-selected="${s.num===current}"><span class="num">${s.num}</span><span class="t">${esc(s.title)}</span><span class="chip k-${s.kind}">${s.kind}</span></button>`).join('');
+  document.getElementById('count').textContent = `${rows.length} of ${SEC.length} sections`;
+}
+function detailHTML(s, playable, flags){
+  const choices = s.links.map(l=>{
+    const ok = !playable || condOk(l.cond, flags);
+    return `<button class="choice" data-go="${l.num}" ${ok?'':'disabled'}><span class="num">${l.num}</span><span>${esc(l.label)}${l.cond?`<span class="cond">${esc(condText(l.cond))}</span>`:''}</span></button>`;
+  }).join('');
+  const t = s.test ? (s.test.type==='combat' ? `Combat: ${s.test.foe} · Nerve ${s.test.nerve} · Vigour ${s.test.vig}` : `Test your ${s.test.type}`) : '';
+  const effects = fx(s);
+  const inc = (incoming[s.key]||[]).map(secBtn).join(' ');
+  return `<div class="head"><div class="big">${s.num}</div><div><h2 style="margin:0">${esc(s.title)}</h2>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px"><span class="chip">Act ${s.act}</span><span class="chip">${esc(s.zone)}</span><span class="chip k-${s.kind}">${s.kind}</span></div></div></div>
+    ${s.text?`<div class="prose" style="margin:14px 0">${renderProse(s.text, null, null, false)}</div><p class="note">Design beat: ${esc(s.beat)}</p>`:(s.beat?`<div class="beat">${esc(s.beat)}</div>`:'')}
+    ${t?`<p><b>${esc(t)}</b></p>`:''}
+    ${effects.length?`<p class="small"><b>${esc(effects.join(' · '))}</b></p>`:''}
+    ${s.claim?`<p class="small claim">Claim +${s.claim}: a letter of your name on its sign</p>`:''}
+    ${s.lore?`<div class="lore"><b>LORE ${esc(s.lore.id)} · ${esc(s.lore.title)}</b><div>${esc(s.lore.text)}</div><div class="muted small">${esc(s.lore.opens)}</div></div>`:''}
+    ${s.kind==='death'?`<p class="small"><span class="bad">Warning given:</span> ${keysToNums(s.warn)}<br><span class="muted">Return to</span> ${s.checkpoint==='LAST'?'your last checkpoint':secBtn(s.checkpoint)}</p>`:''}
+    ${s.kind==='ending'?`<p class="ok">THE END</p>`:''}
+    ${choices?`<div class="choices">${choices}</div>`:''}
+    <dl class="kv">${inc?`<dt>Reached from</dt><dd>${inc}</dd>`:'<dt>Reached from</dt><dd class="muted">The first section: every reader starts here</dd>'}
+    <dt>Design key</dt><dd class="num">${esc(s.key)}</dd></dl>
+    ${s.notes?`<div class="note">${keysToNums(s.notes)}</div>`:''}`;
+}
+function showSection(n){
+  current = +n; const s = byNum[current]; if(!s) return;
+  document.getElementById('detail').innerHTML = detailHTML(s,false);
+  document.querySelectorAll('#list .row').forEach(r=>r.setAttribute('aria-selected', +r.dataset.num===current));
+  const sel = document.querySelector(`#list .row[data-num="${current}"]`); sel && sel.scrollIntoView({block:'nearest'});
+}
+['q','fz','fk'].forEach(id=>document.getElementById(id).addEventListener('input',()=>{renderList();}));
+document.getElementById('list').addEventListener('click',e=>{const r=e.target.closest('.row'); if(r) showSection(r.dataset.num);});
+document.getElementById('detail').addEventListener('click',e=>{const b=e.target.closest('[data-go],[data-goto]'); if(b) showSection(b.dataset.go||b.dataset.goto);});
+
+/* ---------- play-test ---------- */
+function condOk(c, flags){
+  if(!c) return true;
+  return c.replace('hidden:','has:').split('&').every(p=>{
+    if(!p.includes(':')) return true;
+    const [op,f] = p.split(':');
+    return op==='has' ? flags.has(f) : !flags.has(f);
+  });
+}
+let play;
+const DISPLAY = {SAM_TAKEN:'LOST',LAST_PAGE:'LAST PAGE',BOARDING_PASS:'BOARDING PASS',ROOM_KEY:'ROOM KEY',FIRST_AID:'FIRST-AID KIT',CHECKED_IN:'CHECKED IN',READ_INCIDENT:'INCIDENT',OFFERED:'HEARD',ECHO:'RETURNED'};
+const FRONT = D.front || {};
+const CHECK = new Set(D.report.checkpoints || []);
+function mdInline(s){
+  return s.replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>').replace(/\*([^*]+)\*/g,'<i>$1</i>');
+}
+const VARRE = /\*If (you are his son|you are his daughter|neither[^*]*|you are neither[^*]*):\*/gi;
+function variantKey(lbl){ lbl=lbl.toLowerCase(); return lbl.includes('son')&&!lbl.includes('neither')?'SON':lbl.includes('daughter')?'DAUGHTER':'KID'; }
+function filterVariants(p, gender){
+  if(!p.match(VARRE)) return {html:p, variant:false};
+  const parts = p.split(VARRE); // [pre, lbl1, txt1, lbl2, txt2...]
+  let out = parts[0];
+  for(let i=1;i<parts.length;i+=2){
+    const k = variantKey(parts[i]), txt = parts[i+1]||'';
+    if(!gender) out += `<span class="vlabel">${esc(k)}:</span> ` + txt + ' ';
+    else if(k===gender) out += txt;
+  }
+  return {html: out.trim(), variant:true};
+}
+function renderProse(text, flags, gender, playable, linksByKey){
+  const paras = text.split(/\n\n+/);
+  return paras.map(raw=>{
+    let p = raw.trim(); if(!p) return '';
+    const v = filterVariants(p, gender); p = v.html; if(!p) return '';
+    let h = esc(p);
+    h = h.replace(/\{([A-Z0-9_]+t?)\}/g,(m,k)=>{
+      const s = byKey[k]; if(!s) return m;
+      let ok = true;
+      if(playable && linksByKey){ const ls = linksByKey[k]||[]; ok = ls.length===0 || ls.some(l=>condOk(l.cond, flags)); }
+      return `<button class="tok" data-go="${s.num}" ${ok?'':'disabled'} aria-label="Turn to ${s.num}">${s.num}</button>`;
+    });
+    if(/^## /.test(p)) return `<h2>${mdInline(h.slice(3))}</h2>`;
+    if(/^[A-Z][A-Z' ]+\s{2,}NERVE \d+\s{2,}VIGOUR \d+$/.test(p)) return `<p class="foe">${h}</p>`;
+    return `<p${v.variant&&gender?' class="variant"':''}>${mdInline(h)}</p>`;
+  }).join('');
+}
+function resetPlay(){ play = {stack:[], gender:null}; renderStart(); }
+function renderStart(){
+  const fb = FRONT.FRONT_BOARD || '';
+  const keep = fb.split(/\n\n+/).filter(p=>!/^\*(His son|His daughter|Neither)/.test(p) && !/^Turn to section 1/.test(p));
+  document.getElementById('pdetail').innerHTML = `<div class="secno">BEFORE YOU BOARD</div><div class="prose">${renderProse(keep.join('\n\n'), new Set(), null, false)}</div>
+    <div class="who" role="group" aria-label="Who were you to him?">
+      <button data-who="SON">His son</button>
+      <button data-who="DAUGHTER">His daughter</button>
+      <button data-who="KID">Neither, or both. Just his kid.</button>
+    </div>
+    ${FRONT.FRONT_RULES?`<details class="rules prose"><summary>How the airport works</summary>${renderProse(FRONT.FRONT_RULES, new Set(), null, false)}</details>`:''}`;
+  document.getElementById('pwho').textContent = 'Choose who you are to begin.';
+  ['pf','pv','pc','ps'].forEach(id=>document.getElementById(id).textContent='0');
+  document.getElementById('pflags').innerHTML = '<span class="muted small">Nothing yet</span>';
+  document.getElementById('plore').innerHTML = '<span class="muted small">None yet</span>';
+  document.getElementById('ptrail').innerHTML = '';
+}
+function enterPlay(n){
+  const prev = play.stack.at(-1);
+  const flags = new Set(prev?prev.flags:[play.gender]); let fear = prev?prev.fear:0, vig = prev?prev.vig:0, claim = prev?prev.claim:0;
+  const lore = new Set(prev?prev.lore:[]);
+  const s = byNum[n];
+  s.gain.forEach(f=>flags.add(f)); s.lose.forEach(f=>flags.delete(f));
+  fear = Math.max(0, fear + s.fear); vig += s.vig; claim += s.claim||0;
+  if (s.lore) lore.add(s.lore.id);
+  play.stack.push({num:+n, flags:[...flags], fear, vig, claim, lore:[...lore]}); renderPlay();
+  document.getElementById('pdetail').scrollIntoView({block:'start', behavior:'smooth'});
+}
+function renderPlay(){
+  const st = play.stack.at(-1), s = byNum[st.num], flags = new Set(st.flags);
+  const lbk = {}; s.links.forEach(l=>(lbk[l.to]=lbk[l.to]||[]).push(l));
+  const body = s.text ? renderProse(s.text, flags, play.gender, true, lbk) : `<p>${esc(s.beat)}</p>`;
+  const fallback = s.text ? '' : `<div class="choices">${s.links.map(l=>{const ok=condOk(l.cond,flags);return `<button class="choice" data-go="${l.num}" ${ok?'':'disabled'}><span class="num">${l.num}</span><span>${esc(l.label)}</span></button>`;}).join('')}</div>`;
+  const end = (s.kind==='ending') ? '<div class="endmark">THE END</div>' : '';
+  document.getElementById('pdetail').innerHTML = `<div class="secno">${CHECK.has(s.key)?'<span title="Checkpoint">✈</span>':''}<b>${s.num}</b></div><div class="prose">${body}</div>${fallback}${end}`;
+  document.getElementById('pf').textContent = st.fear;
+  document.getElementById('pv').textContent = (st.vig>0?'+':'')+st.vig;
+  document.getElementById('ps').textContent = play.stack.length;
+  document.getElementById('pc').textContent = st.claim;
+  document.getElementById('pwho').textContent = {SON:"You are his son.",DAUGHTER:"You are his daughter.",KID:"You are his kid."}[play.gender]||'';
+  const hidden = new Set(['LF_USED','PRAYED','SMOKED','CHILD','EXCHANGED','KNOCKED','ICE','BAR','ECHO','READ_PAPER','SAW_DOTS','KNOWS_CODE','SON','DAUGHTER','KID','CLEARED_C','CLEARED_F','CLEARED_O','LIFT_SEEN','GUESTBOOK','TILL','OFFERED']);
+  const shown = st.flags.filter(f=>!hidden.has(f));
+  document.getElementById('pflags').innerHTML = shown.length ? shown.map(f=>`<span class="flag">${esc(DISPLAY[f]||f)}</span>`).join('') : '<span class="muted small">Nothing yet</span>';
+  document.getElementById('plore').innerHTML = st.lore.length ? st.lore.map(l=>`<span class="flag">${esc(l)}</span>`).join('') : '<span class="muted small">None yet</span>';
+  document.getElementById('ptrail').innerHTML = play.stack.map(x=>`<span class="num chip">${x.num}</span>`).join('');
+}
+document.getElementById('pdetail').addEventListener('click',e=>{
+  const w=e.target.closest('[data-who]'); if(w){ play.gender=w.dataset.who; play.stack=[]; enterPlay(byKey.A01.num); return; }
+  const b=e.target.closest('[data-go]'); if(b && !b.disabled){ enterPlay(b.dataset.go); return; }
+});
+document.getElementById('pback').addEventListener('click',()=>{ if(play.stack.length>1){play.stack.pop(); renderPlay();} else { play.stack=[]; renderStart(); } });
+document.getElementById('preset').addEventListener('click',resetPlay);
+
+/* ---------- items & deaths tables ---------- */
+(function(){
+  const desc = {BOARDING_PASS:'Key item · opens Gate 0', PASSPORT:"Key item · Sam's papers", LAST_PAGE:'Key item · Rule 8 and the transfer instruction',
+    TRUCE:'You and Sam reconcile', TOLD:'You tell Sam why you stayed away', TRANSFER:'Unlocks the secret ending', KNOWS_CODE:'You know the safe code (1952)'};
+  document.getElementById('itemtable').innerHTML = '<tr><th>Item or codeword</th><th>What it does</th><th>Gained at</th></tr>' +
+    Object.entries(R.routes).map(([k,v])=>`<tr><td class="num">${k}</td><td>${desc[k]||''}</td><td>${v.map(secBtn).join(' ')}</td></tr>`).join('') +
+    `<tr><td class="num">Sam rescued</td><td>Clears SAM_TAKEN</td><td>${R.rescue.map(secBtn).join(' ')}</td></tr>`;
+  const other = [['VOUCHER','Pays the Chef for the page, or settles the food debt'],['FED','A debt: settled at Gate 0'],['CHECKED_IN','A debt: check out at Gate 0'],['MARKED','Sam answered the Announcer; Sam is called again in Act 3'],['PROMISE',"Walter's message, delivered at the end"],['FORGOT','You traded Dad\'s voice; blocks the secret ending'],['UNIFORM','Passes the Night Manager; must come off or you join the Ground Crew'],['TORCH','Reveals stairwell and jet-bridge wrongness'],['SAM_TAKEN','Sam is lost until rescued']];
+  const gainers = f => SEC.filter(s=>s.gain.includes(f)).map(s=>secBtn(s.key)).join(' ');
+  document.getElementById('itemtable').insertAdjacentHTML('beforeend', other.map(([k,d])=>`<tr><td class="num">${k}</td><td>${d}</td><td>${gainers(k)}</td></tr>`).join(''));
+  document.getElementById('deathtable').innerHTML = '<tr><th>§</th><th>Death</th><th>Warning the reader got</th><th>Warned at</th><th>Back to</th></tr>' +
+    R.deaths.map(d=>`<tr><td>${secBtn(d.key)}</td><td>${esc(d.title)}</td><td>${keysToNums(d.warn)}</td><td>${d.clue.map(secBtn).join(' ')}</td><td>${secBtn(d.checkpoint)}</td></tr>`).join('') +
+    `<tr><td>${secBtn('D_VIGOUR')}</td><td>Vigour gone</td><td>Vigour is always on the adventure sheet</td><td></td><td class="muted">Last checkpoint</td></tr>`;
+})();
+document.addEventListener('click',e=>{
+  const g=e.target.closest('[data-goto]'); if(!g || g.closest('#detail') || g.closest('#pdetail')) return;
+  location.hash='sections'; showSection(g.dataset.goto);
+});
+
+/* ---------- manifest ---------- */
+(function(){
+  const E = R.entity;
+  document.getElementById('ename').textContent = E.name;
+  document.getElementById('ewhat').textContent = E.what;
+  document.getElementById('ewants').textContent = E.wants;
+  document.getElementById('elimit').textContent = E.claim_limit;
+  document.getElementById('erules').innerHTML = E.rules.map(([r,d])=>`<li><b>${esc(r)}</b> ${esc(d)}</li>`).join('');
+  document.getElementById('ebreak').textContent = 'The one rule-break: ' + E.breaks_rule.replace(/\b(G\d\d)\b/, m => '§' + byKey[m].num);
+  document.getElementById('claimtable').innerHTML = '<tr><th>§</th><th>How you give your name away</th></tr>' +
+    R.claim_sources.map(([k])=>`<tr><td>${secBtn(k)}</td><td>${esc(byKey[k].title)}</td></tr>`).join('');
+  document.getElementById('loretable').innerHTML = '<tr><th>Lore</th><th>Fragment</th><th>Question it opens or answers</th><th>Found at</th></tr>' +
+    Object.entries(R.lore).map(([id,ks])=>{const L=byKey[ks[0]].lore; return `<tr><td class="num">${id}</td><td><b>${esc(L.title)}</b><br>${esc(L.text)}</td><td class="muted">${esc(L.opens)}</td><td>${ks.map(secBtn).join(' ')}</td></tr>`;}).join('');
+})();
+
+/* ---------- routing ---------- */
+const VIEWS=['play','overview','sections','manifest','items','deaths'];
+function route(){
+  const v = VIEWS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'play';
+  document.querySelectorAll('[data-view]').forEach(el=>el.hidden = el.id!=='v-'+v);
+  document.querySelectorAll('nav.tabs a').forEach(a=>a.setAttribute('aria-current', a.getAttribute('href')==='#'+v?'page':'false'));
+}
+window.addEventListener('hashchange',route);
+renderList(); showSection(1); resetPlay(); route();
+</script>

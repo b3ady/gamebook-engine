@@ -1,0 +1,5 @@
+# The engine is pure Python standard library (Python 3.10+).
+# Optional, only for `python3 -m engine <book> cover` (render cover HTML to JPEG):
+#   playwright   (then: python3 -m playwright install chromium)
+#   Pillow
+# Optional, for EPUB validation: Java + epubcheck.jar (https://github.com/w3c/epubcheck/releases)

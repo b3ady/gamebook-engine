@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__ Story Map</title>
+<style>
+:root{--bg:#f6f4ef;--panel:#fffdf8;--ink:#1d1b18;--muted:#6b665c;--line:#d9d3c5;--accent:#9b2c1f;--ok:#2f6b3a;--warn:#9a6b00;--chip:#efe9dc}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#141311;--panel:#1d1c19;--ink:#ece7dc;--muted:#a39d90;--line:#36332d;--accent:#e0705f;--ok:#7cc48a;--warn:#e2b44d;--chip:#2a2824}}
+:root[data-theme="dark"]{--bg:#141311;--panel:#1d1c19;--ink:#ece7dc;--muted:#a39d90;--line:#36332d;--accent:#e0705f;--ok:#7cc48a;--warn:#e2b44d;--chip:#2a2824}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Georgia,'Times New Roman',serif}
+header{padding:20px 16px 8px;max-width:1200px;margin:0 auto}
+h1{margin:0;font:700 28px/1.1 system-ui,sans-serif;letter-spacing:.04em;text-transform:uppercase}
+.sub{color:var(--muted);font:12px system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;margin-top:4px}
+.flaps{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.flap{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 12px;font-family:system-ui,sans-serif}
+.flap b{display:block;font-size:20px}.flap span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+main{max-width:1200px;margin:0 auto;padding:8px 16px 40px;display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:16px}
+@media (max-width:760px){main{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px}
+input[type=search]{width:100%;font:inherit;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+.list{max-height:70vh;overflow:auto;margin-top:8px}
+.zone{font:600 11px system-ui,sans-serif;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:10px 0 4px}
+.row{display:flex;gap:8px;align-items:baseline;padding:3px 6px;border-radius:6px;cursor:pointer}
+.row:hover,.row.on{background:var(--chip)}
+.num{font:600 13px ui-monospace,Menlo,monospace;min-width:2.6em;text-align:right;color:var(--accent)}
+.kind{font:11px system-ui,sans-serif;color:var(--muted)}
+.sec{font:600 12px ui-monospace,Menlo,monospace;border:1px solid var(--line);background:var(--chip);color:var(--ink);border-radius:5px;padding:0 5px;cursor:pointer}
+.detail h2{margin:0 0 4px;font:700 22px system-ui,sans-serif}
+.meta{color:var(--muted);font:12px system-ui,sans-serif;margin-bottom:10px}
+.beat{border-left:3px solid var(--accent);padding-left:10px;margin:8px 0}
+.text p{margin:0 0 .7em}.text p.cond{border-left:2px solid var(--line);padding-left:8px;color:var(--muted)}
+table{border-collapse:collapse;width:100%;font:13px system-ui,sans-serif}td,th{border-bottom:1px solid var(--line);padding:4px 6px;text-align:left;vertical-align:top}
+.chips span{display:inline-block;background:var(--chip);border-radius:5px;padding:0 6px;margin:2px;font:12px system-ui,sans-serif}
+.issues li{color:var(--accent)}.ok{color:var(--ok)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.tabs button{font:13px system-ui,sans-serif;padding:4px 10px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:6px;cursor:pointer}.tabs button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+</style>
+</head>
+<body>
+<header><h1 id="t"></h1><div class="sub" id="st"></div><div class="flaps" id="flaps"></div></header>
+<main>
+  <section class="panel"><input type="search" id="q" placeholder="Search number, key, title, text" aria-label="Search sections"><div class="list" id="list"></div></section>
+  <section class="panel">
+    <div class="tabs"><button data-tab="sec" aria-pressed="true">Section</button><button data-tab="end" aria-pressed="false">Endings &amp; deaths</button><button data-tab="rep" aria-pressed="false">Verifier report</button></div>
+    <div id="pane"></div>
+  </section>
+</main>
+<script>
+const D = __DATA__;
+const R = D.report, SEC = D.sections, CFG = D.config || {};
+const byKey = {}, byNum = {}; SEC.forEach(s => { byKey[s.key] = s; byNum[s.num] = s; });
+const incoming = {}; SEC.forEach(s => s.links.forEach(l => (incoming[l.to] = incoming[l.to] || []).push(s.key)));
+const esc = t => String(t ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const disp = f => ((CFG.flags || {}).display || {})[f] || f;
+const secBtn = k => byKey[k] ? `<button class="sec" data-goto="${byKey[k].num}" title="${esc(byKey[k].title)}">${byKey[k].num}</button>` : esc(k);
+const condText = c => !c ? '' : c.split('&').map(a => a==='pass'?'test passed':a==='fail'?'test failed':a==='win'?'fight won':a==='lose'?'fight lost':
+  a.startsWith('limit:')?a.slice(6)+' at its limit':a.startsWith('stat:')?a.slice(5):a.startsWith('hidden:')?'hidden · has '+disp(a.slice(7)):a.startsWith('has:')?'has '+disp(a.slice(4)):a.startsWith('not:')?'lacks '+disp(a.slice(4)):a).join(' and ');
+const stats = CFG.stats || [];
+const fx = s => { const o = []; if (s.gain.length) o.push('Gain: ' + s.gain.map(disp).join(', ')); if (s.lose.length) o.push('Lose: ' + s.lose.map(disp).join(', '));
+  stats.forEach(st => { if (st.field && s[st.field]) o.push(`${st.name} ${s[st.field] > 0 ? '+' : ''}${s[st.field]}`); }); return o; };
+const book = CFG.book || {};
+document.title = (book.title || 'Gamebook') + ' Story Map';
+document.getElementById('t').textContent = book.title || 'Story map';
+document.getElementById('st').textContent = `${R.total} sections · ${(R.words||0).toLocaleString()} words · numbering seed ${R.seed}`;
+const nE = SEC.filter(s => s.kind === 'ending').length, nD = SEC.filter(s => s.kind === 'death').length;
+[[R.total,'Sections'],[nE,'Endings'],[nD,'Deaths'],[R.true_path_len,'Shortest win'],[R.issues.length,'Issues']].forEach(([v,l]) =>
+  document.getElementById('flaps').insertAdjacentHTML('beforeend', `<div class="flap"><b>${v}</b><span>${l}</span></div>`));
+function para(t){ return t.split(/\n\s*\n/).map(p => { let h = esc(p).replace(/\{([A-Za-z0-9_]+)\}/g, (m,k) => secBtn(k)).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\*(.+?)\*/g,'<i>$1</i>');
+  return /^\*If /.test(p) && !(/\{/.test(p) && p.split(/\s+/).length < 40) ? `<p class="cond">${h}</p>` : `<p>${h}</p>`; }).join(''); }
+let cur = 1, tab = 'sec';
+function list(){ const q = document.getElementById('q').value.trim().toLowerCase(); const zones = {};
+  SEC.forEach(s => { if (q && !(String(s.num) === q || s.key.toLowerCase().includes(q) || s.title.toLowerCase().includes(q) || (s.text||'').toLowerCase().includes(q))) return; (zones[s.zone] = zones[s.zone] || []).push(s); });
+  document.getElementById('list').innerHTML = Object.entries(zones).map(([z, ss]) => `<div class="zone">${esc(z)}</div>` +
+    ss.sort((a,b)=>a.num-b.num).map(s => `<div class="row ${s.num===cur?'on':''}" data-goto="${s.num}"><span class="num">${s.num}</span><span>${esc(s.title)}</span><span class="kind">${s.kind}</span></div>`).join('')).join(''); }
+function show(){ const pane = document.getElementById('pane');
+  if (tab === 'sec') { const s = byNum[cur]; if (!s) { pane.innerHTML = ''; return; }
+    const t = s.test ? (s.test.type === 'combat' ? `Fight: ${esc(s.test.foe)} ` + Object.entries(s.test).filter(([k]) => !['type','foe'].includes(k)).map(([k,v]) => `${k} ${v}`).join(' · ') : `Test your ${esc(s.test.type)}`) : '';
+    pane.innerHTML = `<div class="detail"><h2>§${s.num} · ${esc(s.title)}</h2>
+      <div class="meta">${esc(s.key)} · ${s.kind} · Act ${s.act} · ${esc(s.zone)}${R.checkpoints && R.checkpoints.includes(s.key) ? ' · checkpoint ✈' : ''}</div>
+      <div class="beat">${esc(s.beat)}</div>
+      ${fx(s).length ? `<div class="chips">${fx(s).map(x => `<span>${esc(x)}</span>`).join('')}</div>` : ''}
+      ${t ? `<p class="meta">${t}</p>` : ''}
+      ${s.kind === 'death' ? `<p class="meta">Warning: ${esc(s.warn)} · back to ${s.checkpoint === 'LAST' ? 'last checkpoint' : secBtn(s.checkpoint)}</p>` : ''}
+      ${s.lore ? `<p class="meta">Lore ${esc(s.lore.id)} · ${esc(s.lore.title)}: ${esc(s.lore.text)}</p>` : ''}
+      <table><tr><th>Link</th><th>Label</th><th>Condition</th></tr>${s.links.map(l => `<tr><td>${secBtn(l.to)}</td><td>${esc(l.label)}</td><td>${esc(condText(l.cond))}</td></tr>`).join('')}</table>
+      <p class="meta">Arrives from: ${(incoming[s.key] || []).map(secBtn).join(' ') || '—'}</p>
+      ${s.notes ? `<p class="meta">Design note: ${esc(s.notes)}</p>` : ''}
+      <div class="text">${s.text ? para(s.text) : '<p class="meta">No prose yet.</p>'}</div></div>`; }
+  if (tab === 'end') { const mins = Object.keys(Object.values(R.endings)[0] || {}).filter(k => k.startsWith('min_'));
+    pane.innerHTML = `<h3>Endings</h3><table><tr><th>§</th><th>Ending</th><th>Reachable</th>${mins.map(m => `<th>${m.replace('min_','min ')}</th>`).join('')}</tr>` +
+      Object.entries(R.endings).map(([k, e]) => `<tr><td>${secBtn(k)}</td><td>${esc(byKey[k].title)}</td><td>${e.reachable ? '<span class="ok">yes</span>' : 'NO'}</td>${mins.map(m => `<td>${e[m] ?? ''}</td>`).join('')}</tr>`).join('') + '</table>' +
+      `<h3>Deaths</h3><table><tr><th>§</th><th>Death</th><th>Warning</th><th>Clues</th><th>Back to</th></tr>` +
+      R.deaths.map(d => `<tr><td>${secBtn(d.key)}</td><td>${esc(d.title)}</td><td>${esc(d.warn)}</td><td>${d.clue.map(secBtn).join(' ')}</td><td>${d.checkpoint === 'LAST' ? 'last ✈' : secBtn(d.checkpoint)}</td></tr>`).join('') + '</table>' +
+      `<h3>Shortest route to the true ending (${R.true_path_len} sections)</h3><p>${R.true_path.map(p => secBtn(p[0])).join(' → ')}</p>`; }
+  if (tab === 'rep') pane.innerHTML = `<h3>Issues</h3>${R.issues.length ? `<ul class="issues">${R.issues.map(i => `<li>${esc(i)}</li>`).join('')}</ul>` : '<p class="ok">None. Every section reachable, no dead ends, no softlocks, every ending reachable.</p>'}
+    <h3>Notes</h3><ul>${R.notes.map(n => `<li>${esc(n)}</li>`).join('')}</ul>
+    <h3>Key item and codeword routes</h3><table>${Object.entries(R.routes).map(([k, v]) => `<tr><td>${esc(disp(k))}</td><td>${v.map(secBtn).join(' ')}</td></tr>`).join('')}</table>
+    <h3>Lore</h3><table>${Object.entries(R.lore).map(([k, v]) => `<tr><td>${esc(k)}</td><td>${v.map(secBtn).join(' ')}</td></tr>`).join('')}</table>
+    <h3>Sections by kind</h3><p>${Object.entries(R.kinds).map(([k, v]) => `${k} ${v}`).join(' · ')}</p>`;
+}
+document.addEventListener('click', e => { const g = e.target.closest('[data-goto]'); if (g) { cur = +g.dataset.goto; tab = 'sec'; sync(); }
+  const t = e.target.closest('[data-tab]'); if (t) { tab = t.dataset.tab; sync(); } });
+document.getElementById('q').addEventListener('input', list);
+function sync(){ document.querySelectorAll('[data-tab]').forEach(b => b.setAttribute('aria-pressed', b.dataset.tab === tab)); list(); show(); }
+sync();
+</script>
+</body>
+</html>

@@ -1,0 +1,1195 @@
+{
+ "book": {
+  "title": "The Layover",
+  "subtitle": "An Interactive Horror Novel",
+  "author": "Corvin Wake",
+  "publisher": "Grave Choice Gamebooks",
+  "language": "en",
+  "slug": "the-layover",
+  "subjects": [
+   "Fiction / Horror",
+   "Interactive fiction"
+  ],
+  "description": "An Interactive Horror Novel. You are the hero. Choose wisely.",
+  "fiction_note": "Names, characters, places, airlines and incidents are the product of the author's imagination."
+ },
+ "story": {
+  "module": "story.py",
+  "list": "S",
+  "overlays": [
+   {
+    "module": "entity.py",
+    "dict": "U",
+    "lore_fields": [
+     "id",
+     "title",
+     "text",
+     "opens"
+    ]
+   }
+  ]
+ },
+ "sections": {
+  "count": 200,
+  "start": "A01",
+  "true_ending": "E_ARRIVAL",
+  "terminal_kinds": [
+   "ending",
+   "death"
+  ],
+  "fixed_numbers": {
+   "A01": 1,
+   "E_ARRIVAL": 200,
+   "SAFE": 152,
+   "SECRET": 137
+  },
+  "hidden_targets": [
+   "SECRET",
+   "SAFE"
+  ],
+  "shared_deaths": [
+   "D_VIGOUR"
+  ],
+  "checkpoints_extra": [
+   "A01",
+   "H01",
+   "G01",
+   "G11",
+   "G15"
+  ],
+  "seed_start": 0
+ },
+ "stats": [
+  {
+   "name": "Fear",
+   "field": "fear",
+   "floor": 0,
+   "start": 0,
+   "report_min": true,
+   "must_state": true,
+   "limit": {
+    "ending": "E_FINALCALL",
+    "dynamic": "Nerve + 3"
+   }
+  },
+  {
+   "name": "Vigour",
+   "field": "vig",
+   "must_state": true,
+   "death": "D_VIGOUR"
+  },
+  {
+   "name": "Claim",
+   "field": "claim",
+   "start": 0,
+   "cap": 5,
+   "report_min": true,
+   "must_state": true,
+   "limit": {
+    "value": 5,
+    "ending": "E_FINALCALL",
+    "hook_label": "If your Claim has reached 5"
+   }
+  },
+  {
+   "name": "Hours",
+   "start": 0,
+   "cap": 6
+  }
+ ],
+ "clock": {
+  "stat": "Hours",
+  "exits": [
+   "C18",
+   "C35",
+   "F14",
+   "O19"
+  ],
+  "hubs": [
+   "H01",
+   "H05",
+   "H03"
+  ]
+ },
+ "conditions": {
+  "aliases": {
+   "claim3": "stat:Claim>=3",
+   "claim4": "stat:Claim>=4",
+   "claimlow": "stat:Claim<=2",
+   "claimlimit": "limit:Claim",
+   "fearlimit": "limit:Fear",
+   "hours6": "stat:Hours>=6"
+  }
+ },
+ "verify": {
+  "track_stats": [],
+  "finale_gate": {
+   "section": "G01",
+   "items": [
+    "BOARDING_PASS",
+    "PASSPORT",
+    "LAST_PAGE"
+   ]
+  },
+  "item_min_routes": 2,
+  "report_routes": [
+   "TRUCE",
+   "TOLD",
+   "TRANSFER",
+   "KNOWS_CODE"
+  ],
+  "report_rescue": "SAM_TAKEN",
+  "ending_below_limit": [
+   {
+    "ending": "E_ARRIVAL",
+    "stat": "Claim"
+   }
+  ],
+  "report_overlay": {
+   "entity": {
+    "attr": "ENTITY",
+    "keys": [
+     "name",
+     "what",
+     "wants",
+     "rules",
+     "breaks_rule"
+    ],
+    "add": {
+     "claim_limit": "CLAIM_LIMIT"
+    }
+   }
+  }
+ },
+ "flags": {
+  "items": [
+   "BOARDING_PASS",
+   "PASSPORT",
+   "LAST_PAGE",
+   "ROOM_KEY",
+   "FIRST_AID",
+   "HANDBOOK",
+   "MAP",
+   "TORCH",
+   "UNIFORM",
+   "VOUCHER"
+  ],
+  "codewords": [
+   "THAW",
+   "TRUCE",
+   "CARE",
+   "TOLD",
+   "MARKED",
+   "FED",
+   "CHECKED_IN",
+   "PROMISE",
+   "FORGOT",
+   "TRANSFER",
+   "SAM_TAKEN",
+   "ECHO",
+   "OFFERED",
+   "READ_INCIDENT"
+  ],
+  "loose": [
+   "LF_USED",
+   "PRAYED",
+   "SMOKED",
+   "CHILD",
+   "EXCHANGED",
+   "KNOCKED",
+   "ICE",
+   "BAR",
+   "ECHO",
+   "OFFERED",
+   "READ_INCIDENT",
+   "LIFT_SEEN",
+   "GUESTBOOK",
+   "TILL",
+   "THAW",
+   "CARE",
+   "SIGNED"
+  ],
+  "display": {
+   "SAM_TAKEN": "LOST",
+   "LAST_PAGE": "LAST PAGE",
+   "BOARDING_PASS": "BOARDING PASS",
+   "ROOM_KEY": "ROOM KEY",
+   "FIRST_AID": "FIRST-AID KIT",
+   "CHECKED_IN": "CHECKED IN",
+   "READ_INCIDENT": "INCIDENT",
+   "OFFERED": "HEARD",
+   "ECHO": "RETURNED"
+  },
+  "hidden": [
+   "CLEARED_C",
+   "CLEARED_F",
+   "CLEARED_O",
+   "KNOWS_CODE",
+   "LF_USED",
+   "PRAYED",
+   "SMOKED",
+   "CHILD",
+   "KNOCKED",
+   "ICE",
+   "BAR",
+   "READ_PAPER",
+   "LIFT_SEEN",
+   "GUESTBOOK",
+   "TILL",
+   "EXCHANGED"
+  ],
+  "unstated_ok": [
+   "HANDBOOK",
+   "MAP",
+   "SAW_DOTS"
+  ],
+  "consumables": {
+   "FIRST_AID": {
+    "stat": "Vigour",
+    "amount": 6,
+    "label": "Use the first-aid kit (+6 Vigour)"
+   }
+  }
+ },
+ "variants": {
+  "label": "Who were you to him?",
+  "flags": [
+   "SON",
+   "DAUGHTER",
+   "KID"
+  ],
+  "marker": "\\*If (you are his son|you are his daughter|neither[^*]*|you are neither[^*]*):\\*",
+  "match": {
+   "SON": "^you are his son",
+   "DAUGHTER": "^you are his daughter",
+   "KID": "neither"
+  }
+ },
+ "zones": {
+  "act1": [
+   "A01",
+   "A02",
+   "A03",
+   "A04",
+   "A05",
+   "A06",
+   "A07",
+   "A08",
+   "A09",
+   "A10",
+   "A11",
+   "A12",
+   "A13",
+   "A14",
+   "A15",
+   "A16",
+   "A17",
+   "A18",
+   "A19",
+   "A20",
+   "A21",
+   "A22",
+   "A23",
+   "A24",
+   "D01",
+   "A25",
+   "A26",
+   "A27",
+   "A28",
+   "A29",
+   "A30",
+   "A31",
+   "A32",
+   "A33",
+   "D02",
+   "A34",
+   "A35",
+   "A36",
+   "A37",
+   "A38"
+  ],
+  "concourse": [
+   "H01",
+   "H05",
+   "H11",
+   "H12",
+   "H13",
+   "H03",
+   "H06",
+   "AL01",
+   "H04",
+   "H07",
+   "H08",
+   "H09",
+   "C01",
+   "C02",
+   "C03",
+   "C04",
+   "C05",
+   "C06",
+   "C37",
+   "C19",
+   "C07",
+   "C08",
+   "C32",
+   "C30",
+   "C31",
+   "C09",
+   "C35",
+   "C10",
+   "D03",
+   "C11",
+   "C12",
+   "C13",
+   "C16",
+   "C14",
+   "C17",
+   "C18",
+   "C26",
+   "C29",
+   "C27",
+   "C33",
+   "C34"
+  ],
+  "dutyfree": [
+   "F01",
+   "F33",
+   "F02",
+   "F03",
+   "F05",
+   "F29",
+   "F28",
+   "F04",
+   "D05",
+   "F06",
+   "F07",
+   "F08",
+   "F09",
+   "F10",
+   "F11",
+   "F12",
+   "F13",
+   "F24",
+   "F30",
+   "F14",
+   "F15",
+   "F16",
+   "D04",
+   "F17",
+   "F18",
+   "F19",
+   "F21",
+   "F22",
+   "F23",
+   "F31",
+   "F25",
+   "F27",
+   "D09"
+  ],
+  "hotel": [
+   "O01",
+   "O31",
+   "O02",
+   "O03",
+   "O05",
+   "O06",
+   "SAFE",
+   "O07",
+   "O08",
+   "O30",
+   "O09",
+   "O10",
+   "O14",
+   "O16",
+   "O17t",
+   "O17",
+   "D06",
+   "O11",
+   "O18",
+   "D07",
+   "O12",
+   "O13",
+   "O22",
+   "O23",
+   "O27",
+   "O28",
+   "O15",
+   "O24",
+   "O25",
+   "O26",
+   "O29",
+   "O19",
+   "O20",
+   "O21"
+  ],
+  "act3": [
+   "G43",
+   "G46",
+   "D10",
+   "G01",
+   "G26",
+   "G41",
+   "G42",
+   "D08",
+   "G32",
+   "G33",
+   "G02",
+   "G03",
+   "G04",
+   "G05",
+   "G06",
+   "G11",
+   "G31",
+   "G47",
+   "G44",
+   "G45",
+   "G13",
+   "G14",
+   "G34",
+   "G38",
+   "G36",
+   "G15",
+   "G37",
+   "G16",
+   "G17",
+   "G51",
+   "G52",
+   "G18",
+   "G19",
+   "G48",
+   "G49",
+   "G50",
+   "G20",
+   "G21",
+   "G25",
+   "G22",
+   "G23",
+   "G24",
+   "G40",
+   "G39",
+   "E_ARRIVAL",
+   "SECRET",
+   "E_SEPARATE",
+   "E_ALONE",
+   "E_GROUNDCREW",
+   "E_LOOP",
+   "E_FINALCALL",
+   "D_VIGOUR"
+  ]
+ },
+ "prose": {
+  "dir": "prose",
+  "front_prefix": "FRONT_"
+ },
+ "check": {
+  "min_words": {
+   "test": 70,
+   "combat": 70,
+   "death": 90,
+   "ending": 200,
+   "default": 100
+  },
+  "cliches": [
+   "blood ran cold",
+   "chill ran down",
+   "little did you know",
+   "suddenly",
+   "it was as if",
+   "heart pounding"
+  ],
+  "death_end": "Add {cost} to your Claim. Return to {{{checkpoint}}} and choose again.",
+  "death_cost_field": "claim"
+ },
+ "tics": {
+  "full-name formula": "full name|every (part|letter|syllable) of (it|your name)|all of your name",
+  "speaks to object": "(says|said|asks|tells|mutters|whispers|reads)[^.\\\"]{0,25}\\b(to|at) (the (board|glass|page|box|window|screen|floor|bridge|counter|ceiling|dark)|nobody|no one|his knees)",
+  "warm object": "\\bwarm\\b",
+  "counting/lose count": "lose count|losing count|start(s)? again from|count(s|ing)? (them|under|again)",
+  "hands in pockets": "hands? in (his|your) pockets",
+  "a pace ahead": "a pace ahead|pace ahead",
+  "not looking at you": "not looking at you|doesn't look at you|without looking at you",
+  "first ... tonight": "first (thing|time|one|way|rest)[^.]{0,30}(tonight|all night)",
+  "narrator stat defence": "you are learning|learning (them|the rules)|the place has rules",
+  "nobody/no one/alone": "\\bnobody\\b|\\bno one\\b|\\balone\\b",
+  "shift": "\\bshift\\b",
+  "my kid": "my kid\\b",
+  "frightened eyes": "(frightened|terrified|scared)[^.]{0,30}eyes|eyes[^.]{0,30}(frightened|terrified)",
+  "very": "\\bvery\\b",
+  "sam reads": "\\b(he|Sam) reads\\b|reads (the|it|them|out|aloud)|reading (the|it|out|aloud)",
+  "dead phone": "dead phone|phone[^.]{0,20}dead|wakes? (his|the) phone",
+  "distance": "\\b(ten|two|three|four|five|six|twenty) (paces|steps|rows|seats|feet|yards)\\b|an inch from",
+  "at once": "\\bat once\\b",
+  "flat voice": "\\bflat(ly)?\\b",
+  "It fits": "\\bit fits\\b",
+  "whole name": "full name|first to last|off a form|middle name|every (part|letter|syllable)|all of your name|your whole name",
+  "simile": "\\blike a\\b|\\bas if\\b|\\bas though\\b|\\bthe way (a|an|the|you|he|she|it|people|someone)\\b"
+ },
+ "tic_quotas": {
+  "book": {
+   "at once": 6,
+   "It fits": 1,
+   "very": 0
+  },
+  "act3": {
+   "nobody/no one/alone": 10
+  }
+ },
+ "cond_groups": {
+  "lost": [
+   "lost"
+  ],
+  "sam": [
+   "sam is with",
+   "sam was"
+  ],
+  "relationship": [
+   "truce",
+   "thaw",
+   "care"
+  ]
+ },
+ "epub": {
+  "per_file": 20,
+  "checkpoint_icon": "assets/plane.png",
+  "cover": "assets/cover.jpg",
+  "images": [
+   "assets/qr.png"
+  ],
+  "foe_stats": [
+   "NERVE",
+   "VIGOUR"
+  ],
+  "front": [
+   {
+    "file": "board.xhtml",
+    "title": "Before You Board",
+    "prose": "FRONT_BOARD",
+    "link_section1": true
+   },
+   {
+    "file": "rules.xhtml",
+    "title": "How the Airport Works",
+    "prose": "FRONT_RULES"
+   },
+   {
+    "file": "sheet.xhtml",
+    "title": "Adventure Sheet",
+    "sheet": true
+   }
+  ],
+  "back": [
+   {
+    "file": "about.xhtml",
+    "title": "About the Author",
+    "nav": "Thank You",
+    "html": "<h2>Thank you for flying</h2>\n<p>If The Layover kept you up past midnight, a short review on Amazon helps more than you'd think: it's how other readers find the book.</p>\n<p>There are seven endings. One of them needs a number you already have.</p>"
+   }
+  ],
+  "sheet": {
+   "digital_url": "https://b3ady.github.io/the-layover/",
+   "digital_label": "b3ady.github.io/the-layover",
+   "digital_text": "Keep the free digital Adventure Sheet open on your phone beside your Kindle. Type each section number as you turn to it, and it keeps your scores, Claim, hours, codewords and items for you, and rolls your dice.",
+   "qr": "qr.png",
+   "paper_text": "Or copy this onto paper. You'll need a pencil, two dice (or a dice app) and an eraser.",
+   "rows": [
+    [
+     "SON / DAUGHTER / KID",
+     ""
+    ],
+    [
+     "NERVE (starting)",
+     ""
+    ],
+    [
+     "VIGOUR (starting / now)",
+     ""
+    ],
+    [
+     "FORTUNE (starting / now)",
+     ""
+    ],
+    [
+     "FEAR (now / limit = Nerve + 3)",
+     ""
+    ],
+    [
+     "CLAIM (at 5, turn to the section the rules give)",
+     "☐ ☐ ☐ ☐ ☐"
+    ],
+    [
+     "HOURS (tick one each time you come back to the Atrium)",
+     "☐ 01 ☐ 02 ☐ 03 ☐ 04 ☐ 05 ☐ 06"
+    ],
+    [
+     "ITEMS",
+     ""
+    ],
+    [
+     "CODEWORDS",
+     ""
+    ],
+    [
+     "LAST ✈ CHECKPOINT",
+     ""
+    ],
+    [
+     "LORE (what you know)",
+     ""
+    ]
+   ],
+   "back_html": "front/sheet_back.html"
+  },
+  "out": "dist/the-layover.epub"
+ },
+ "web_sheet": {
+  "template": "templates/sheet.html",
+  "brand": "THE LAYOVER",
+  "tag": "LV 137",
+  "storage_key": "layover-sheet-v1",
+  "cost_regex": "(lose \\d+ Vigour|gain \\d+ Fear|lose \\d+ Fear|add \\d+ to your Claim|cross off \\d+ letters? of (?:your )?Claim)",
+  "loop_ending": "E_LOOP",
+  "out": "sheet.html"
+ },
+ "storymap": {
+  "template": "templates/storymap.html",
+  "out": "story-map.html"
+ },
+ "coverage": {
+  "seed": 7,
+  "max_routes": 14,
+  "candidates": 400,
+  "max_steps": 600,
+  "fresh_bias": 0.85
+ },
+ "epubcheck": {
+  "jar": ""
+ },
+ "cover": {
+  "template": "templates/cover.html",
+  "out": "build/cover_v1.jpg",
+  "_note": "The shipped cover (assets/cover.jpg) is the v2 risograph cover made by layover/cover2/make.py; this renders the v1 HTML cover as a demo of the cover command."
+ },
+ "playthroughs": [
+  {
+   "name": "1_kind_true_ending",
+   "variant": "DAUGHTER",
+   "waypoints": [
+    "A03",
+    "A07",
+    "A09",
+    "A12",
+    "A17",
+    "A20",
+    "A22",
+    "A26",
+    "A29",
+    "A32",
+    "A35",
+    "A38",
+    "H01",
+    "C02",
+    "C06",
+    "C37",
+    "C10",
+    "C11",
+    "C13",
+    "C16",
+    "C18",
+    "H05",
+    "H11",
+    "H12",
+    "H01",
+    "F33",
+    "F02",
+    "F03",
+    "F05",
+    "F08",
+    "F10",
+    "F11",
+    "F14",
+    "H01",
+    "O31",
+    "O02",
+    "O05",
+    "O06",
+    "SAFE",
+    "O19",
+    "H01",
+    "G43",
+    "G01",
+    "G32",
+    "G02",
+    "G05",
+    "G06",
+    "G14",
+    "G34",
+    "G38",
+    "G15",
+    "G16",
+    "G17",
+    "G18",
+    "G20",
+    "G21",
+    "G24",
+    "G40",
+    "G39",
+    "E_ARRIVAL"
+   ],
+   "avoid": [
+    "AL01",
+    "E_ALONE",
+    "A10",
+    "C14",
+    "G03",
+    "G04",
+    "F29",
+    "O03",
+    "D10"
+   ],
+   "outcome": {
+    "G32": "pass"
+   }
+  },
+  {
+   "name": "2_cold_alone",
+   "variant": "SON",
+   "waypoints": [
+    "A04",
+    "A06",
+    "A10",
+    "A12",
+    "A19",
+    "A23",
+    "A27",
+    "A30",
+    "A33",
+    "A36",
+    "A37",
+    "A38",
+    "H01",
+    "O02",
+    "O03",
+    "O09",
+    "O11",
+    "O18",
+    "O19",
+    "H05",
+    "H11",
+    "H01",
+    "C06",
+    "C07",
+    "C08",
+    "C32",
+    "C09",
+    "C35",
+    "H03",
+    "AL01",
+    "E_ALONE"
+   ],
+   "avoid": [
+    "A09",
+    "A17",
+    "A26",
+    "O28",
+    "F18",
+    "G05",
+    "O16",
+    "A13",
+    "A14",
+    "H12"
+   ],
+   "outcome": {}
+  },
+  {
+   "name": "3_secret_transfer",
+   "variant": "KID",
+   "waypoints": [
+    "A03",
+    "A07",
+    "A09",
+    "A13",
+    "A17",
+    "A20",
+    "A22",
+    "A26",
+    "A29",
+    "A32",
+    "A36",
+    "A38",
+    "H01",
+    "H04",
+    "H09",
+    "C01",
+    "C02",
+    "C03",
+    "C04",
+    "C10",
+    "C11",
+    "C13",
+    "C16",
+    "C18",
+    "C29",
+    "C27",
+    "C18",
+    "H01",
+    "O01",
+    "O02",
+    "O03",
+    "O08",
+    "O30",
+    "O09",
+    "O11",
+    "O18",
+    "O19",
+    "F01",
+    "F02",
+    "F08",
+    "F09",
+    "F11",
+    "F14",
+    "H01",
+    "G43",
+    "G01",
+    "G32",
+    "G02",
+    "G05",
+    "G06",
+    "G14",
+    "G38",
+    "G15",
+    "G16",
+    "G20",
+    "G21",
+    "G24",
+    "SECRET"
+   ],
+   "avoid": [
+    "AL01",
+    "E_ALONE",
+    "F21",
+    "G03",
+    "G04",
+    "C14",
+    "C12",
+    "D10"
+   ],
+   "outcome": {
+    "C29": "pass",
+    "G32": "pass"
+   }
+  },
+  {
+   "name": "3b_sam_lost_rescue",
+   "variant": "SON",
+   "waypoints": [
+    "A04",
+    "A07",
+    "A10",
+    "A12",
+    "A18",
+    "A20",
+    "A21",
+    "A23",
+    "A25",
+    "A26",
+    "A28",
+    "A29",
+    "A31",
+    "A33",
+    "A34",
+    "A35",
+    "A38",
+    "H01",
+    "C01",
+    "C10",
+    "C11",
+    "C14",
+    "C17",
+    "C18",
+    "C26",
+    "C18",
+    "H01",
+    "O01",
+    "O08",
+    "O10",
+    "O14",
+    "O17t",
+    "O17",
+    "O19",
+    "H01",
+    "F01",
+    "F15",
+    "F18",
+    "F14",
+    "H01",
+    "G43",
+    "D10",
+    "G01",
+    "G26",
+    "G41",
+    "G42",
+    "G32",
+    "G02",
+    "G05",
+    "G06",
+    "G44",
+    "G14",
+    "G38",
+    "G15",
+    "G16",
+    "G20",
+    "G21",
+    "G24",
+    "G40",
+    "E_ARRIVAL"
+   ],
+   "avoid": [
+    "AL01",
+    "O11",
+    "O16",
+    "C16",
+    "O28",
+    "A09"
+   ],
+   "outcome": {
+    "C14": "fail",
+    "O17t": "pass",
+    "G41": "pass",
+    "G32": "pass"
+   }
+  },
+  {
+   "name": "4_debts_ground_crew",
+   "variant": "DAUGHTER",
+   "waypoints": [
+    "A04",
+    "A07",
+    "A10",
+    "A12",
+    "A16",
+    "A18",
+    "A20",
+    "A22",
+    "A25",
+    "A27",
+    "A29",
+    "A31",
+    "A33",
+    "A34",
+    "A35",
+    "A38",
+    "H01",
+    "F01",
+    "F33",
+    "F15",
+    "F16",
+    "F19",
+    "F21",
+    "F14",
+    "H01",
+    "O01",
+    "O26",
+    "O29",
+    "O02",
+    "O03",
+    "O08",
+    "O15",
+    "O24",
+    "O25",
+    "O12",
+    "O09",
+    "O11",
+    "O18",
+    "O19",
+    "H01",
+    "C01",
+    "C02",
+    "C06",
+    "C19",
+    "C10",
+    "C12",
+    "C18",
+    "C29",
+    "C33",
+    "C34",
+    "C18",
+    "H01",
+    "G43",
+    "G01",
+    "G32",
+    "G33",
+    "G02",
+    "G05",
+    "G06",
+    "G11",
+    "G31",
+    "G13",
+    "G14",
+    "G38",
+    "G36",
+    "E_GROUNDCREW"
+   ],
+   "avoid": [
+    "AL01",
+    "O28",
+    "A09",
+    "O27",
+    "D10"
+   ],
+   "outcome": {
+    "G32": "fail",
+    "G31": "fail",
+    "G13": "win",
+    "C29": "fail"
+   }
+  },
+  {
+   "name": "5_reckless_deaths_loop",
+   "variant": "SON",
+   "waypoints": [
+    "A03",
+    "A06",
+    "A09",
+    "A14",
+    "A16",
+    "A23",
+    "D01",
+    "A25",
+    "A26",
+    "A30",
+    "A31",
+    "A33",
+    "A34",
+    "A35",
+    "A38",
+    "H01",
+    "C01",
+    "C10",
+    "C12",
+    "C18",
+    "C33",
+    "C34",
+    "C18",
+    "H01",
+    "F01",
+    "F02",
+    "F04",
+    "F06",
+    "F08",
+    "F10",
+    "F12",
+    "F13",
+    "F11",
+    "F14",
+    "H01",
+    "O01",
+    "O08",
+    "O10",
+    "O14",
+    "O17t",
+    "O17",
+    "O19",
+    "H01",
+    "G43",
+    "D10",
+    "G01",
+    "G32",
+    "G02",
+    "G05",
+    "G06",
+    "G44",
+    "G14",
+    "G38",
+    "G15",
+    "G16",
+    "G19",
+    "G48",
+    "G49",
+    "G50",
+    "G20",
+    "G23",
+    "E_LOOP"
+   ],
+   "avoid": [
+    "AL01",
+    "E_ALONE"
+   ],
+   "outcome": {
+    "O17t": "pass",
+    "G32": "pass",
+    "G19": "fail"
+   }
+  },
+  {
+   "name": "6_separate_seats",
+   "variant": "KID",
+   "waypoints": [
+    "A04",
+    "A06",
+    "A10",
+    "A12",
+    "A23",
+    "A27",
+    "A30",
+    "A33",
+    "A36",
+    "A37",
+    "A38",
+    "H01",
+    "O02",
+    "O09",
+    "O11",
+    "O18",
+    "O19",
+    "H05",
+    "H11",
+    "H01",
+    "C06",
+    "C07",
+    "C08",
+    "C32",
+    "C09",
+    "C35",
+    "H03",
+    "H06",
+    "H01",
+    "F15",
+    "F18",
+    "F14",
+    "H01",
+    "G43",
+    "G01",
+    "G32",
+    "G02",
+    "G05",
+    "G06",
+    "G44",
+    "G14",
+    "G38",
+    "G15",
+    "G16",
+    "G20",
+    "G21",
+    "G25",
+    "E_SEPARATE"
+   ],
+   "avoid": [
+    "A19",
+    "A09",
+    "A17",
+    "A26",
+    "O28",
+    "F18",
+    "O16",
+    "H12",
+    "F29",
+    "C16",
+    "AL01",
+    "D10"
+   ],
+   "outcome": {
+    "G32": "pass"
+   }
+  }
+ ]
+}
