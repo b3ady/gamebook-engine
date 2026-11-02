@@ -889,3 +889,29 @@ for _d in ("D01", "D02"):
     _K[_d]["band"] = 0
     _K[_d]["notes"] = ("v2: Act 1 death, no wristband field. End with 'Return to {%s} and choose again.' only "
                        "(the book-wide death line's 'Fill in 1 more field' does not apply here)." % _K[_d]["checkpoint"])
+
+# ======================================================================
+# v3: round-1 review fixes (lean review: A 7.5, B 7.5)
+# ======================================================================
+_K = {s["key"]: s for s in B.S} if hasattr(B, "S") else _K
+# Anger is the engine, not a sin: owning the funeral line also opens Ros up; being her carer costs nothing.
+_K["A34"]["gain"] = list(set(_K["A34"].get("gain", []) + ["SPOKE"])); _K["A34"]["fear"] = 1
+_K["A06"]["fear"] = 0
+# MENDED is not available a third of the way in: the Old Wing telling reveals the requests but doesn't mend.
+_K["W21"]["gain"] = [g for g in _K["W21"]["gain"] if g != "MENDED"]
+# Care must tempt: it pays in Fear (the stat that matters), and still costs a field.
+_K["A14"].update(vig=0, fear=-2); _K["H11"].update(vig=0, fear=-2); _K["H10"].update(vig=2, fear=-3)
+# Ros's scissors need something to cut.
+for _s in S:
+    for _l in _s["links"]:
+        if _l["to"] in ("W27", "R12"):
+            _l["cond"] = (_l["cond"] + "&" if _l["cond"] else "") + "stat:Wristband>=1"
+# The Ward 0 stair door is a lesson, not a trap to repeat.
+_K["D08"]["gain"] = list(set(_K["D08"].get("gain", []) + ["TRIED_DOOR"]))
+for _s in S:
+    for _l in _s["links"]:
+        if _l["to"] == "D08":
+            _l["cond"] = (_l["cond"] + "&" if _l["cond"] else "") + "not:TRIED_DOOR"
+# Owning it opens Ros up (SPOKE); taking it back is easier but doesn't (a little comfort, no SPOKE).
+_K["A35"]["gain"] = [g for g in _K["A35"]["gain"] if g != "SPOKE"]; _K["A35"]["fear"] = -1
+_K["A34"]["fear"] = 0

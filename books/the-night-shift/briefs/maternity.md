@@ -134,7 +134,7 @@ Effects (state them in the text, using in-world names): (hidden, never mention) 
 ### D08 — Closed  [death, Act 2, Maternity]
 Arrives from: M01 (Level 5)
 Beat: Behind the door, Mum's monitor, and stairs going down to it. You take them two at a time. The door shuts behind you, and the stairs keep going, and so does the beeping, never nearer.
-Effects (state them in the text, using in-world names): Wristband +1
+Effects (state them in the text, using in-world names): Note TRIED_DOOR; Wristband +1
 Death — the warning the reader was given: Notice rule 5: Ward 0 is closed (it can be opened only with the badge, the letter and the last rule, from the Main Corridor).  End: 'Fill in 1 more field on your wristband. Return to {M01} and choose again.'
 
 ### M27 — Ten minutes  [story, Act 2, Maternity]
@@ -184,7 +184,7 @@ Links (write each target as a token):
   - {M08}  "The nurses' station, where a phone is ringing"  [condition: lacks PHONE_M]  → leads to: The phone
   - {M14}  "The delivery suite"  [condition: lacks DELIVERY]  → leads to: The delivery suite
   - {M18}  "Ward 9"  [condition: lacks WARD9]  → leads to: Ward 9, 1999
-  - {D08}  "Open the door marked WARD 0"  → leads to: Closed
+  - {D08}  "Open the door marked WARD 0"  [condition: lacks TRIED_DOOR]  → leads to: Closed
   - {M28}  "Back down to the Main Corridor (if you have THE LAST RULE)"  [condition: has THE LAST RULE]  → leads to: Down
   - {M29}  "Back down without it (if you do not have THE LAST RULE)"  [condition: lacks THE LAST RULE]  → leads to: Down without it
 Design note: Zone junction and checkpoint. Delivery and Ward 9 always yield THE LAST RULE (or a fight), so no softlock.

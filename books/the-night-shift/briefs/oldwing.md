@@ -238,7 +238,7 @@ Arrives from: W18 (Candles)
 Beat: MENDED route 1 of 3 (chapel). If neither request has been told yet, this is THE telling: you tell her Mum asked you to stay ('Don't let them put me anywhere'); she tells you Mum sent her ('If you stay, your sister will let you do everything'). If one half is already known (SENT/ASKED), pointer only. Lose 2 Fear. Codeword MENDED.
 Links (write each target as a token):
   - {W01}  "Continue"  → leads to: The Old Wing
-Effects (state them in the text, using in-world names): Note MENDED; (hidden, never mention) SENT; (hidden, never mention) ASKED; Fear -2
+Effects (state them in the text, using in-world names): (hidden, never mention) SENT; (hidden, never mention) ASKED; Fear -2
 Design note: One telling: whichever MENDED scene comes first carries the full exchange; the others are gated not:MENDED.
 
 ### W25 — The tabard  [item, Act 2, Old Wing]
@@ -253,7 +253,7 @@ Design note: Helps on rounds (W10, M23). Must be taken off in Act 3 (R32) or it 
 Arrives from: W12 (Checked), W10 (The round), W11 (Passed over)
 Beat: Out in the tiled corridor, the ward breathing behind you.
 Links (write each target as a token):
-  - {W27}  "If Ros is with you and you have SPOKE: hold out your wrist for her scissors"  [condition: lacks WARDED and has SPOKE and lacks CUT_W]  → leads to: Surgical scissors
+  - {W27}  "If Ros is with you and you have SPOKE: hold out your wrist for her scissors"  [condition: lacks WARDED and has SPOKE and lacks CUT_W and Wristband ≥ 1]  → leads to: Surgical scissors
   - {W01}  "Back along the corridor"  → leads to: The Old Wing
 Design note: Scissors moment 1 of 2 (W27, R12).
 

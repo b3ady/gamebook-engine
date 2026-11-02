@@ -116,7 +116,7 @@ Arrives from: R08 (Lucid), R09 (The 05:00 round)
 Beat: Fields come off only when they are claimed back.
 Links (write each target as a token):
   - {R11}  "If Ros is with you: give her Mum's letter to read aloud"  [condition: lacks WARDED]  → leads to: Read aloud
-  - {R12}  "If Ros is with you and you have HELD: hold out your wrist for her scissors"  [condition: lacks WARDED and has HELD]  → leads to: Snip
+  - {R12}  "If Ros is with you and you have HELD: hold out your wrist for her scissors"  [condition: lacks WARDED and has HELD and Wristband ≥ 1]  → leads to: Snip
   - {R13}  "Go on into the ward"  → leads to: Bay 2
 Design note: Wristband reckoning. One claim-back here.
 

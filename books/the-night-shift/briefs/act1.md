@@ -76,7 +76,7 @@ Arrives from: A33 (The window)
 Beat: Ros nods as if you've confirmed a figure. The lift arrives. Gain 1 Fear.
 Links (write each target as a token):
   - {A36}  "Continue"  → leads to: The Main Corridor
-Effects (state them in the text, using in-world names): Fear +1
+Effects (state them in the text, using in-world names): Note SPOKE
 
 ### A19 — Stopped  [story, Act 1, Level 3]
 Arrives from: A17 (Night setting)
@@ -164,7 +164,7 @@ Arrives from: A33 (The window)
 Beat: It isn't sorry, but it's near it. Ros breathes out for what looks like the first time since Toronto. Codeword SPOKE.
 Links (write each target as a token):
   - {A36}  "Continue"  → leads to: The Main Corridor
-Effects (state them in the text, using in-world names): Note SPOKE
+Effects (state them in the text, using in-world names): Fear -1
 Design note: SPOKE route 2 of 4.
 
 ### A29 — Ros answers  [story, Act 1, Level 3]
@@ -219,7 +219,6 @@ Arrives from: A05 (The surgeon's question)
 Beat: The surgeon glances at his notes and says, 'We'll talk later.' Ros looks at the floor. Something is wrong with that answer and nobody says what. Gain 1 Fear.
 Links (write each target as a token):
   - {A09}  "Continue"  → leads to: Property
-Effects (state them in the text, using in-world names): Fear +1
 
 ### A24 — Rules  [choice, Act 1, Level 3]
 Arrives from: A23 (The Notice)
@@ -278,5 +277,5 @@ Arrives from: A13 (The first round)
 Beat: 'Just your name for the tea list, love.' You give it. The tea is perfect. On your wrist, under your sleeve, something soft and plastic that wasn't there. Fill in the NAME field of your wristband. Gain 2 Vigour.
 Links (write each target as a token):
   - {A17}  "Continue"  → leads to: Night setting
-Effects (state them in the text, using in-world names): Vigour +2; Wristband +1
+Effects (state them in the text, using in-world names): Fear -2; Wristband +1
 Design note: First WRISTBAND field: teaches that comfort accepted is written down.

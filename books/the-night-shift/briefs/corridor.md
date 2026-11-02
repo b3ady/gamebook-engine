@@ -61,7 +61,7 @@ Arrives from: H08 (The tea bar)
 Beat: Strong, sweet, exactly how Mum makes it. She writes your date of birth on a paper cup without asking it. Gain 3 Vigour. Fill in one more field of your wristband.
 Links (write each target as a token):
   - {H01}  "Continue"  → leads to: The Main Corridor
-Effects (state them in the text, using in-world names): Vigour +3; Wristband +1
+Effects (state them in the text, using in-world names): Fear -2; Wristband +1
 
 ### H01 — The Main Corridor  [choice, Act 2, Main Corridor]
 Arrives from: H04 (Deleted), M29 (Down without it), H17 (Next of kin), W30 (Retreat), B30 (The stairs), HLD (Down only), H07 (An hour), W29 (One room behind), M28 (Down), H16 (Saturday), H11 (Tea), H15 (Larkvale), H14 (First aid), H13 (The payphone), H03 (Things to say), B29 (The lift), A36 (The Main Corridor), H12 (Since the war), H06 (Refused), H10 (Blanket), H02 (Back on the Main Corridor), H18 (Rosalind)
@@ -156,7 +156,7 @@ Arrives from: H05 (An offer)
 Beat: The blanket is warm from somewhere. You sleep for no time at all. When you wake, your wristband says WARD in her neat capitals. Gain 4 Vigour. Fill in one more field of your wristband.
 Links (write each target as a token):
   - {H01}  "Continue"  → leads to: The Main Corridor
-Effects (state them in the text, using in-world names): Vigour +4; Wristband +1
+Effects (state them in the text, using in-world names): Vigour +2; Fear -3; Wristband +1
 
 ### H02 — Back on the Main Corridor  [story, Act 2, Main Corridor]
 Arrives from: M29 (Down without it), W30 (Retreat), B30 (The stairs), HLD (Down only), W29 (One room behind), M28 (Down), B29 (The lift)
