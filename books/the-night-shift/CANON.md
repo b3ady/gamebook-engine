@@ -97,3 +97,14 @@ read a name spoken by someone who loves you (H18, W28/W31, R14, R35); keep anyon
 - Mum's call from tomorrow (M09): hoarse from the tube ("I sound like a docker"), given a green jelly, a nurse calls her "Mo"; "Sister never looked there. She had the only key, and she trusted herself."
 - THE LAST RULE strips match the Notice's type and lamination, ragged top edge. M12 back: biro doodle of a bow-tied consultant, trousers down, "WHO'S HAD MY NOTES", Mum's M (middle stroke dipping) and 1979. M17: pinned with a pink nappy pin; DELIVERY 2 clock stuck at 01:46, moves to 01:47 when taken. M20: folded in four, "Ward 9. 1999. Not yet. M."
 - In M13 the Sister writes 3 in the BED field. Mum's lipstick is coral. Ros: Blundstones, tea with milk, no sugar. Dad taught you both to double-knot laces on the back step.
+
+## basement (from the Basement writer)
+- File DOYLE M., red falls-risk star. LPA: Donor M. DOYLE; Attorney ROSALIND DOYLE; Option A; advance decision attached; registered 2023. Ros signed in Toronto, witness "D. Okafor", recorded delivery both ways.
+- Letter: soft blue Basildon Bond envelope "For Bean", one sheet folded in three, one sentence, unsigned, last word "one". Printed in full only where first reached (B07 or LOCKER).
+- Mum's line to Ros: at the wake, Legion kitchen, at the sink with her hat on, after reading Ros's offer letter from her handbag; Ros announced the job twenty minutes later. Your request: second night on the stroke unit, Mum's good hand round your wrist. Mum's line to Ros varies by reader: "your sister" / "your brother" / "our kid" (W21, M22, R41 must match).
+- Ros on why she kept it: "Because it was Mum's to tell." (Mum never asked either to keep it secret.)
+- Main Corridor is Level 1 (lift button 1, not G).
+- LOCKER: 1979 photo of six women on the Old Wing steps, Mum third from left mid-laugh; the Sister's face a blur of several faces. Nurse's cape, black lace-ups worn on the outer heel, smell of Embassy Regal.
+- Ring: wedding band worn thin at the back, Dad's initials and hers inside.
+- Tabard (B11/B23): M. BRENNAN, Fairy Snow, Polo mints, list "Bed 2 obs. Bed 4 sit with. Bed 6 tea, 2 sugars." Linen: WARD 0 laundry cage, sheets turned down; mangle dated 1890.
+- Lodge mugs DES, BIG TONY, MICK, KEV; board "OLD WING x1 (R.) - 02:00 / WARD 0 x1 (M., BAY 6) - done / WARD 0 x1 (VISITOR) -". Ros's admission file names you as next of kin. Mortuary card 14 MAR 1991; after B20 the drawer card shows your DOB. Trolley castor with a flat spot: tick, tick. D05: floors below the Basement have name plates incl. Gary, Rosalind, Maureen.

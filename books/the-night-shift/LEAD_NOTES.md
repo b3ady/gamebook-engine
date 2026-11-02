@@ -6,3 +6,4 @@
 - Ros's phone: M27 has the Sister answer it ("Old Wing. She's sleeping, love…") and it rings on; match W28 and E_ONLYCHILD.
 - HS vs M01: stairwell door LEVEL 5 MATERNITY / WARD 9, plus a second WARD 0 – CLOSED door only on Level 5 (yellow stencil as H02). Check H02/HS agree.
 - M23 "If you are wearing the TABARD": confirm the Old Wing/Basement treat the tabard as worn.
+- B10 brief says Ros: 'Because she asked me not to' (contradicts CANON); prose uses 'Because it was Mum's to tell'. Fix story.py beat.
