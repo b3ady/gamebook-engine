@@ -1,13 +1,1 @@
-{
- "A01": "[DRAFT A01] Arrival.\n\nTurn to {A02}.",
- "A02": "[DRAFT A02] The cupboard.\n\nIf you take the torch, turn to {A03}.\n\nIf you leave it and keep moving, turn to {A04}.",
- "A03": "[DRAFT A03] Note the TORCH on your Adventure Sheet.\n\nTurn to {A05}.",
- "A04": "[DRAFT A04] Gain 1 Fear. Add 1 to your Doom.\n\nIf you go back for the torch, turn to {A03}.",
- "A05": "[DRAFT A05] The door marked 0.\n\nIf you open it, turn to {D01}. If you walk past it, turn to {A06}. If you sit down and wait for morning, turn to {E_LOST}.",
- "D01": "[DRAFT D01] A complete little horror story with a final image.\n\nAdd 1 to your Doom. Return to {A05} and choose again.",
- "A06": "[DRAFT A06] It comes for you.\n\nTHE THING   NERVE 7   VIGOUR 7\n\nIf you win, turn to {E_TRUE}.\n\nIf your Vigour reaches 0, turn to {D_VIGOUR}.",
- "E_TRUE": "[DRAFT E_TRUE] Morning.",
- "E_LOST": "[DRAFT E_LOST] Waiting.",
- "E_DOOM": "[DRAFT E_DOOM] Taken.",
- "D_VIGOUR": "[DRAFT D_VIGOUR] Spent. Turn back to your last ✈ checkpoint."
-}
+{}

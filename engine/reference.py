@@ -7,6 +7,7 @@ stateref : build/STATE.md - where each flag is gained/lost (printed numbers, in-
            incoming links of every section with their conditions. Auditors check every section
            against every way in.
 """
+from .config import write_text
 from .verify import load_map
 from . import conditions as C
 
