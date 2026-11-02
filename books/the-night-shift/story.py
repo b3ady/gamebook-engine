@@ -922,3 +922,6 @@ _K["A28"]["fear"] = 1                                                  # protect
 _K["W31"]["vig"] = -1; _K["R15"]["vig"] = -1                           # rescues cost
 for _l in _K["W10"]["links"]:
     if _l["to"] == "W12": _l.update(cond="not:VISITOR_BADGE&not:TABARD", label="Stand at a bedside like a visitor (if you have no badge and no tabard)")
+
+# v5: audit fix: Ward 9 has a way out without sitting in the chair.
+_K["M18"]["links"].append(dict(to="M01", label="Leave Ward 9", cond=None))
