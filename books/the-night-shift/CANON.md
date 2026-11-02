@@ -108,3 +108,14 @@ read a name spoken by someone who loves you (H18, W28/W31, R14, R35); keep anyon
 - Ring: wedding band worn thin at the back, Dad's initials and hers inside.
 - Tabard (B11/B23): M. BRENNAN, Fairy Snow, Polo mints, list "Bed 2 obs. Bed 4 sit with. Bed 6 tea, 2 sugars." Linen: WARD 0 laundry cage, sheets turned down; mangle dated 1890.
 - Lodge mugs DES, BIG TONY, MICK, KEV; board "OLD WING x1 (R.) - 02:00 / WARD 0 x1 (M., BAY 6) - done / WARD 0 x1 (VISITOR) -". Ros's admission file names you as next of kin. Mortuary card 14 MAR 1991; after B20 the drawer card shows your DOB. Trolley castor with a flat spot: tick, tick. D05: floors below the Basement have name plates incl. Gary, Rosalind, Maureen.
+
+## act1 (from the Act 1 writer)
+- Timeline tonight: found on the kitchen floor ~18:10, ambulance 18:52, CT ~20:15, theatre 22:40. Mum wore her coral lipstick for the ambulance; last words before theatre: "Don't let them shave my fringe, Bean." Ros texted "Landed. Taxi. 40 mins."
+- You and Ros were last in a room together Christmas before last, at Mum's. Ros stopped calling you Bean in her twenties. Mum is allergic to penicillin. Mum's boiler failed in 2021; Ros did the insurance from Toronto.
+- Property bag: clear zipped sack labelled DOYLE, M.; vanishes if left unopened. Glasses: brown market frames, hinge mended with Sellotape by you in August. Same six lottery numbers since the nineties. Ring never off since before you were born.
+- The Sister: navy dress, white apron, winged cap; her face is never described. She says "Maureen", never "Mo". Tea: milk and two sugars, thick green NHS cup.
+- Level 3 corridor clock stuck at 01:40, jumps to 01:58. The Notice: laminated typed card inside a Level 3 linen-cupboard door, ragged torn bottom edge under rule 7, plastic cloudy at the tear. You and Ros last hid together in a wardrobe in 1996.
+- Ros was twelve when she caught you... (A28/H03: Ros caught with your diary at twelve). The Sister leaves a red mark on Ros's wrist the width of a band (A29).
+- Funeral line said at the wake, in front of the vicar, vol-au-vent in hand. Fog comes off the river. Lift panel stops at B; the other shaft goes below B.
+- Wristband fields: "fill one empty field; if the book names it, that one; otherwise the next empty one."
+- First mention of "the minute" is H05.

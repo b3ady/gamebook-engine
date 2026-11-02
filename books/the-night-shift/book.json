@@ -143,7 +143,7 @@
 
  "epub": {
   "per_file": 20,
-  "checkpoint_icon": null,
+  "checkpoint_icon": "assets/plane.png",
   "cover": null,
   "images": [],
   "foe_stats": ["NERVE", "VIGOUR"],
@@ -165,7 +165,7 @@
             ["FEAR (now / limit = Nerve + 3)", ""],
             ["WRISTBAND (at 5, turn to the section the rules give)", "☐ NAME ☐ DATE OF BIRTH ☐ NEXT OF KIN ☐ WARD ☐ BED"],
             ["ROUNDS (tick one each time you come back to the Main Corridor)", "☐ 01:00 ☐ 02:00 ☐ 03:00 ☐ 04:00 ☐ 05:00 ☐ 06:00"],
-            ["ITEMS", ""], ["CODEWORDS", ""], ["LAST CHECKPOINT", ""], ["THE NOTICE (rules 1-7; 8 torn off)", ""]],
+            ["ITEMS", ""], ["CODEWORDS", ""], ["LAST ✈ CHECKPOINT", ""], ["THE NOTICE (rules 1-7; 8 torn off)", ""]],
    "back_html": null
   },
   "out": "dist/the-night-shift.epub"
@@ -177,7 +177,7 @@
   "storage_key": "night-shift-sheet-v1",
   "cost_regex": "(lose \\d+ Vigour|gain \\d+ Fear|lose \\d+ Fear|fill in (?:one|\\d+) more fields? (?:of|on) your wristband|cross off one field of your wristband)",
   "loop_ending": "E_LOOP",
-  "loop_keep": {"Wristband": 1},
+  "loop_keep": {"Wristband": 2},
   "combat": {"skill": "Nerve", "health": "Vigour", "damage": 2},
   "foe_fields": ["nerve", "vig"],
   "warnings": [{"stat": "Wristband", "eq": 4, "text": "Four fields: the recovery room won't let a patient visit a patient."},
