@@ -144,7 +144,7 @@
  "epub": {
   "per_file": 20,
   "checkpoint_icon": "assets/plane.png",
-  "cover": null,
+  "cover": "assets/cover.jpg",
   "images": [],
   "foe_stats": ["NERVE", "VIGOUR"],
   "front": [
