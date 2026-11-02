@@ -72,3 +72,18 @@ read a name spoken by someone who loves you (H18, W28/W31, R14, R35); keep anyon
 ## Added in drafting
 
 (writers append here: key, fact)
+
+## oldwing (from the Old Wing writer)
+- Brass floor strip where 1960s lino meets quarry tiles; painted hand points NIGHTINGALE WARD / CHAPEL / SISTER (SISTER retouched).
+- The Kept: every chart 36.8 / pulse 72, hourly; on the round they hold out wrists in unison and mouth her count.
+- Gary (W06): appendix out on a Tuesday, "going home Friday", orange squash, Panini album; his mum wears a blue anorak (R06a should match); his 1986 VISITOR badge gets your name in a child's joined-up writing.
+- W08 tape: "OBS PRACTICE. NIGHTS. 1979". Sister: "Never let them see you're tired, Brennan." Mum at 24: "I've counted his blinks."
+- W24 rota: typewriter with a dropped e; staff nurses J. OKAFOR (wks 1–2), P. LYNCH (wks 3–4); smiley with a quiff beside M. BRENNAN (Mum draws it on birthday cards).
+- Chapel book: "For Dad, Ward 4. For my Gerald. For Baby." The Sister writes your name and "For you, love." at W17.
+- Sister's office: gold-leaf SISTER on frosted glass, kettle and two cups, window on a foggy courtyard and lit empty car-park bays.
+- Tabard: mid-blue, white piping, poppers, name tape M. BRENNAN, smells of Mum's hand cream.
+- Night porter: brown warehouse coat with St Bede's crest; trolley made up, cot-sides down.
+- Ros's scissors: curved surgical, finger loops worn bright. "I've got a list of reasons and none of them are good." The cut leaves a thin red line the width of the field.
+- Ros warded (W28): tea-coloured cellular blanket, shoes side by side under the bed, band starts ROSALIND with every field filled; next bed empty, turned down.
+- "Ros" = what you shouted up the stairs aged six when she had your Walkman; what Mum calls her on the phone to Toronto.
+- Two requests (W21): Mum asked you on the stroke unit, gripping your wrist with her good hand, before she could say your name. Mum sent Ros in the kitchen the night after the funeral, "with the plates still out". Ros: "I didn't leave. I was sent." Why she let you believe otherwise: "Than being told I wasn't needed."
